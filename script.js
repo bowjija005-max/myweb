@@ -1,94 +1,191 @@
-function encode(data){
-  return btoa(JSON.stringify(data));
+// ================= INIT =================
+if (!localStorage.getItem("users")) {
+  localStorage.setItem("users", JSON.stringify([
+    { username: "admin", password: btoa("kim123"), role: "admin" }
+  ]));
 }
 
-function decode(data){
-  return JSON.parse(atob(data));
+if (!localStorage.getItem("products")) {
+  localStorage.setItem("products", JSON.stringify([
+    { id: 1, name: "VIP 30 วัน", price: 100 },
+    { id: 2, name: "VIP 90 วัน", price: 250 }
+  ]));
 }
 
-function getUsers(){
-  let data = localStorage.getItem("users");
-  return data ? decode(data) : [];
+// ================= UTILS =================
+function getUsers(){ return JSON.parse(localStorage.getItem("users")); }
+function saveUsers(u){ localStorage.setItem("users", JSON.stringify(u)); }
+
+function getSession(){ return JSON.parse(sessionStorage.getItem("session")); }
+function setSession(u){ sessionStorage.setItem("session", JSON.stringify(u)); }
+function logout(){ sessionStorage.clear(); location.href="login.html"; }
+
+function requireLogin(){
+  if(!getSession()) location.href="login.html";
 }
 
-function saveUsers(users){
-  localStorage.setItem("users", encode(users));
-}
-
+// ================= REGISTER =================
 function register(){
-  let username = document.getElementById("username").value;
-  let password = document.getElementById("password").value;
+  let u = reg_user.value.trim();
+  let p = reg_pass.value;
 
-  if(password.length <= 5){
-    alert("รหัสต้องมากกว่า 5 ตัว");
-    return;
-  }
+  if(p.length < 6){ alert("รหัสต้องมากกว่า 5 ตัว"); return; }
 
   let users = getUsers();
-  if(users.find(u=>u.username===username)){
-    alert("ชื่อซ้ำ");
+  if(users.find(x=>x.username===u)){
+    alert("มีชื่อนี้แล้ว");
     return;
   }
 
-  users.push({username,password});
+  users.push({ username:u, password:btoa(p), role:"user" });
   saveUsers(users);
+
   alert("สมัครสำเร็จ");
   location.href="login.html";
 }
 
+// ================= LOGIN =================
 function login(){
-  let username = document.getElementById("username").value;
-  let password = document.getElementById("password").value;
+  let u = log_user.value.trim();
+  let p = btoa(log_pass.value);
 
-  let users = getUsers();
-  let user = users.find(u=>u.username===username && u.password===password);
+  let user = getUsers().find(x=>x.username===u && x.password===p);
+  if(!user){ alert("ข้อมูลผิด"); return; }
 
-  if(user){
-    localStorage.setItem("login", encode(user));
-    location.href="index.html";
-  }else{
-    alert("ข้อมูลผิด");
-  }
+  setSession(user);
+  location.href="index.html";
 }
 
-function checkLogin(){
-  if(!localStorage.getItem("login")){
-    location.href="login.html";
-  }
+// ================= PRODUCTS =================
+function loadProducts(){
+  let list = document.getElementById("productList");
+  if(!list) return;
+
+  let products = JSON.parse(localStorage.getItem("products"));
+  list.innerHTML="";
+
+  products.forEach(p=>{
+    list.innerHTML += `
+      <div class="card">
+        <h3>${p.name}</h3>
+        <p>${p.price} บาท</p>
+        <button onclick="addToCart(${p.id})">เพิ่ม</button>
+      </div>
+    `;
+  });
 }
 
-function logout(){
-  localStorage.removeItem("login");
-  location.href="login.html";
-}
+// ================= CART =================
+function getCart(){ return JSON.parse(localStorage.getItem("cart")) || []; }
+function saveCart(c){ localStorage.setItem("cart", JSON.stringify(c)); }
 
-function getCurrentUser(){
-  let data = localStorage.getItem("login");
-  return data ? decode(data) : null;
-}
+function addToCart(id){
+  let products = JSON.parse(localStorage.getItem("products"));
+  let product = products.find(p=>p.id===id);
 
-function addToCart(name,price){
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart.push({name,price});
-  localStorage.setItem("cart",JSON.stringify(cart));
-  alert("เพิ่มลงตะกร้าแล้ว");
+  let cart = getCart();
+  cart.push(product);
+  saveCart(cart);
+  alert("เพิ่มแล้ว");
 }
 
 function loadCart(){
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
   let list = document.getElementById("cartList");
+  if(!list) return;
+
+  let cart = getCart();
   let total = 0;
   list.innerHTML="";
 
-  cart.forEach((item,i)=>{
-    total += item.price;
-    list.innerHTML += `<p>${item.name} - ${item.price} บาท</p>`;
+  cart.forEach((c,i)=>{
+    total += c.price;
+    list.innerHTML += `
+      <div>
+        ${c.name} - ${c.price} บาท
+        <button onclick="removeCart(${i})">ลบ</button>
+      </div>
+    `;
   });
 
-  document.getElementById("total").innerText = total;
+  totalPrice.innerText = total;
 }
 
-function clearCart(){
-  localStorage.removeItem("cart");
+function removeCart(i){
+  let cart = getCart();
+  cart.splice(i,1);
+  saveCart(cart);
   loadCart();
-          }
+}
+
+// ================= PROFILE =================
+function loadProfile(){
+  let user = getSession();
+  if(!user) return;
+
+  profileBox.innerHTML = `
+    <p>ชื่อผู้ใช้: ${user.username}</p>
+    <p>สิทธิ์: ${user.role}</p>
+  `;
+}
+
+// ================= ADMIN =================
+function checkAdmin(){
+  let user = getSession();
+  if(!user || user.role !== "admin"){
+    location.href="index.html";
+  }
+}
+
+function verifyAdmin(){
+  if(admin_secret.value !== "988977"){
+    alert("รหัสชั้นที่ 2 ไม่ถูกต้อง");
+    return false;
+  }
+  sessionStorage.setItem("adminVerified","true");
+  return true;
+}
+
+function requireAdminVerified(){
+  if(sessionStorage.getItem("adminVerified") !== "true"){
+    document.getElementById("adminPanel").style.display="none";
+  }else{
+    document.getElementById("adminLoginBox").style.display="none";
+  }
+}
+
+function loadAdminProducts(){
+  let list = document.getElementById("adminProductList");
+  if(!list) return;
+
+  let products = JSON.parse(localStorage.getItem("products"));
+  list.innerHTML="";
+
+  products.forEach(p=>{
+    list.innerHTML += `
+      <div>
+        ${p.name} - ${p.price}
+        <button onclick="deleteProduct(${p.id})">ลบ</button>
+      </div>
+    `;
+  });
+}
+
+function addProduct(){
+  let name = newName.value;
+  let price = parseInt(newPrice.value);
+
+  if(!name || !price){ alert("กรอกให้ครบ"); return; }
+
+  let products = JSON.parse(localStorage.getItem("products"));
+  products.push({ id:Date.now(), name, price });
+  localStorage.setItem("products", JSON.stringify(products));
+
+  loadAdminProducts();
+}
+
+function deleteProduct(id){
+  let products = JSON.parse(localStorage.getItem("products"));
+  products = products.filter(p=>p.id!==id);
+  localStorage.setItem("products", JSON.stringify(products));
+  loadAdminProducts();
+     }
