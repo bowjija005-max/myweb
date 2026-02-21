@@ -5,27 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body style="background:black;color:white;text-align:center;font-family:sans-serif;padding-top:80px;">
+<body style="background:linear-gradient(to bottom right,#5f6fdc,#7c4dff);
+display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;">
 
-  <h1 style="font-size:40px;">สมัครสมาชิก</h1>
+  <div style="background:white;padding:40px;border-radius:20px;width:300px;text-align:center;">
 
-  <form action="success.html">
-    
-    <input type="text" placeholder="ชื่อของคุณ" required
-    style="padding:10px;width:250px;margin:10px;"><br>
+    <h2>สมัครสมาชิก</h2>
 
-    <input type="email" placeholder="อีเมล" required
-    style="padding:10px;width:250px;margin:10px;"><br>
+    <form action="success.html" method="get">
 
-    <input type="password" placeholder="รหัสผ่าน" required
-    style="padding:10px;width:250px;margin:10px;"><br>
+      <input type="text" placeholder="ชื่อ" required
+      style="width:100%;padding:10px;margin:10px 0;"><br>
 
-    <button type="submit"
-    style="padding:10px 30px;font-size:18px;background:gold;border:none;border-radius:10px;">
-      สมัครสมาชิก
-    </button>
+      <input type="email" placeholder="อีเมล" required
+      style="width:100%;padding:10px;margin:10px 0;"><br>
 
-  </form>
+      <input type="password" placeholder="รหัสผ่าน" required
+      style="width:100%;padding:10px;margin:10px 0;"><br>
+
+      <button type="submit"
+      style="width:100%;padding:10px;background:#5f6fdc;color:white;border:none;border-radius:10px;">
+        สมัคร
+      </button>
+
+    </form>
+
+  </div>
 
 </body>
 </html>
