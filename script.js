@@ -1,130 +1,57 @@
-// INIT
-if(!localStorage.getItem("users")){
-localStorage.setItem("users",JSON.stringify([
-{username:"admin",password:btoa("kim123"),role:"admin"}
-]));
-}
-if(!localStorage.getItem("products")){
-localStorage.setItem("products",JSON.stringify([
-{id:1,name:"VIP 30 วัน",price:100},
-{id:2,name:"VIP 90 วัน",price:250}
-]));
+// ===== สมัครสมาชิก =====
+function register() {
+  let user = document.getElementById("regUser").value;
+  let pass = document.getElementById("regPass").value;
+
+  if(user === "" || pass === ""){
+    alert("กรอกข้อมูลให้ครบ");
+    return;
+  }
+
+  localStorage.setItem("username", user);
+  localStorage.setItem("password", pass);
+
+  alert("สมัครสำเร็จ");
+  window.location.href = "login.html";
 }
 
-function getUsers(){return JSON.parse(localStorage.getItem("users"))}
-function saveUsers(u){localStorage.setItem("users",JSON.stringify(u))}
-function getSession(){return JSON.parse(sessionStorage.getItem("session"))}
-function setSession(u){sessionStorage.setItem("session",JSON.stringify(u))}
-function logout(){sessionStorage.clear();location.href="login.html"}
-function requireLogin(){if(!getSession())location.href="login.html"}
+// ===== ล็อกอิน =====
+function login() {
+  let user = document.getElementById("loginUser").value;
+  let pass = document.getElementById("loginPass").value;
 
-function register(){
-let u=reg_user.value.trim()
-let p=reg_pass.value
-if(p.length<6){alert("รหัสต้องมากกว่า5ตัว");return}
-let users=getUsers()
-if(users.find(x=>x.username===u)){alert("มีชื่อนี้แล้ว");return}
-users.push({username:u,password:btoa(p),role:"user"})
-saveUsers(users)
-alert("สมัครสำเร็จ")
-location.href="login.html"
-}
+  // ===== ADMIN =====
+  if(user === "admin" && pass === "1234"){
+    localStorage.setItem("role", "admin");
+    alert("เข้าสู่ระบบ Admin สำเร็จ");
+    window.location.href = "admin.html";
+    return;
+  }
 
-function login(){
-let u=log_user.value.trim()
-let p=btoa(log_pass.value)
-let user=getUsers().find(x=>x.username===u&&x.password===p)
-if(!user){alert("ข้อมูลผิด");return}
-setSession(user)
-location.href="index.html"
+  let savedUser = localStorage.getItem("username");
+  let savedPass = localStorage.getItem("password");
+
+  if(user === savedUser && pass === savedPass){
+    localStorage.setItem("role", "user");
+    alert("เข้าสู่ระบบสำเร็จ");
+    window.location.href = "index.html";
+  } else {
+    alert("ข้อมูลไม่ถูกต้อง");
+  }
 }
 
-function loadProducts(){
-let list=document.getElementById("productList")
-if(!list)return
-let products=JSON.parse(localStorage.getItem("products"))
-list.innerHTML=""
-products.forEach(p=>{
-list.innerHTML+=`<div class="card"><h3>${p.name}</h3><p>${p.price} บาท</p><button onclick="addToCart(${p.id})">เพิ่ม</button></div>`
-})
-}
-
-function getCart(){return JSON.parse(localStorage.getItem("cart"))||[]}
-function saveCart(c){localStorage.setItem("cart",JSON.stringify(c))}
-function addToCart(id){
-let products=JSON.parse(localStorage.getItem("products"))
-let product=products.find(p=>p.id===id)
-let cart=getCart()
-cart.push(product)
-saveCart(cart)
-alert("เพิ่มแล้ว")
-}
-function loadCart(){
-let list=document.getElementById("cartList")
-if(!list)return
-let cart=getCart()
-let total=0
-list.innerHTML=""
-cart.forEach((c,i)=>{
-total+=c.price
-list.innerHTML+=`${c.name}-${c.price} บาท <button onclick="removeCart(${i})">ลบ</button><br>`
-})
-totalPrice.innerText=total
-}
-function removeCart(i){
-let cart=getCart()
-cart.splice(i,1)
-saveCart(cart)
-loadCart()
-}
-
-function loadProfile(){
-let user=getSession()
-profileBox.innerHTML=`ชื่อ:${user.username}<br>สิทธิ์:${user.role}`
-}
-
+// ===== เช็คสิทธิ์หน้า Admin =====
 function checkAdmin(){
-let user=getSession()
-if(!user||user.role!=="admin")location.href="index.html"
+  let role = localStorage.getItem("role");
+
+  if(role !== "admin"){
+    alert("คุณไม่มีสิทธิ์เข้า Admin");
+    window.location.href = "login.html";
+  }
 }
 
-function verifyAdmin(){
-if(admin_secret.value!=="988977"){alert("รหัสผิด");return false}
-sessionStorage.setItem("adminVerified","true")
-return true
-}
-
-function requireAdminVerified(){
-if(sessionStorage.getItem("adminVerified")!=="true"){
-document.getElementById("adminPanel").style.display="none"
-}else{
-document.getElementById("adminLoginBox").style.display="none"
-}
-}
-
-function loadAdminProducts(){
-let list=document.getElementById("adminProductList")
-if(!list)return
-let products=JSON.parse(localStorage.getItem("products"))
-list.innerHTML=""
-products.forEach(p=>{
-list.innerHTML+=`${p.name}-${p.price} <button onclick="deleteProduct(${p.id})">ลบ</button><br>`
-})
-}
-
-function addProduct(){
-let name=newName.value
-let price=parseInt(newPrice.value)
-if(!name||!price){alert("กรอกให้ครบ");return}
-let products=JSON.parse(localStorage.getItem("products"))
-products.push({id:Date.now(),name,price})
-localStorage.setItem("products",JSON.stringify(products))
-loadAdminProducts()
-}
-
-function deleteProduct(id){
-let products=JSON.parse(localStorage.getItem("products"))
-products=products.filter(p=>p.id!==id)
-localStorage.setItem("products",JSON.stringify(products))
-loadAdminProducts()
+// ===== ออกจากระบบ =====
+function logout(){
+  localStorage.removeItem("role");
+  window.location.href = "login.html";
 }
