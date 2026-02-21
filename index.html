@@ -8,7 +8,7 @@
 <style>
 body{
     margin:0;
-    font-family:Arial, sans-serif;
+    font-family:Arial;
     background:#6a00a8;
     color:white;
 }
@@ -21,6 +21,10 @@ header{
     background:rgba(0,0,0,0.2);
 }
 
+.header-buttons button{
+    margin-left:8px;
+}
+
 button{
     padding:8px 15px;
     border:none;
@@ -29,15 +33,10 @@ button{
     font-weight:bold;
 }
 
-.login-btn{
-    background:#4cc9f0;
-    color:white;
-}
+.login-btn{ background:#4cc9f0; color:white; }
+.register-btn{ background:#ff9e00; color:white; }
 
-.container{
-    padding:20px;
-    text-align:center;
-}
+.container{ padding:20px; text-align:center; }
 
 .products{
     display:grid;
@@ -50,85 +49,4 @@ button{
     background:white;
     color:black;
     padding:20px;
-    border-radius:15px;
-}
-
-.hidden{
-    display:none;
-}
-
-input{
-    padding:10px;
-    margin:8px 0;
-    width:80%;
-    border-radius:8px;
-    border:1px solid #ccc;
-}
-
-.login-box{
-    text-align:center;
-    margin-top:50px;
-}
-</style>
-</head>
-
-<body>
-
-<header>
-    <h2>Bubble Shop</h2>
-    <button class="login-btn" onclick="showLogin()">เข้าสู่ระบบ</button>
-</header>
-
-<!-- หน้า สินค้า -->
-<div id="home" class="container">
-    <h1>รายการสินค้า</h1>
-    <div class="products">
-        <div class="card">สินค้า A</div>
-        <div class="card">สินค้า B</div>
-        <div class="card">สินค้า C</div>
-        <div class="card">สินค้า D</div>
-    </div>
-</div>
-
-<!-- หน้า Login -->
-<div id="loginPage" class="hidden login-box">
-    <h2>เข้าสู่ระบบ</h2>
-    <input type="text" id="username" placeholder="Username"><br>
-    <input type="password" id="password" placeholder="Password"><br>
-    <button onclick="login()">Login</button>
-</div>
-
-<!-- หน้า Admin -->
-<div id="adminPage" class="hidden container">
-    <h1>ยินดีต้อนรับ Admin 🔥</h1>
-    <button onclick="logout()">ออกจากระบบ</button>
-</div>
-
-<script>
-
-function showLogin(){
-    document.getElementById("home").classList.add("hidden");
-    document.getElementById("loginPage").classList.remove("hidden");
-}
-
-function login(){
-    let user = document.getElementById("username").value;
-    let pass = document.getElementById("password").value;
-
-    if(user === "admin" && pass === "12345"){
-        document.getElementById("loginPage").classList.add("hidden");
-        document.getElementById("adminPage").classList.remove("hidden");
-    }else{
-        alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
-    }
-}
-
-function logout(){
-    document.getElementById("adminPage").classList.add("hidden");
-    document.getElementById("home").classList.remove("hidden");
-}
-
-</script>
-
-</body>
-</html>
+    border-radius:15px
