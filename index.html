@@ -6,74 +6,91 @@
 <title>สมัครสมาชิก</title>
 
 <style>
-body {
+*{
+    box-sizing: border-box;
     margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #001f3f, #003366);
+    padding: 0;
     font-family: Arial, sans-serif;
 }
 
-.box {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    width: 300px;
-    text-align: center;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg,#667eea,#764ba2);
 }
 
-h2 {
-    margin-bottom: 20px;
+.card{
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    width:350px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.2);
+    text-align:center;
 }
 
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+.card h1{
+    margin-bottom:25px;
 }
 
-button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    background: #007bff;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:15px;
 }
 
-button:hover {
-    background: #0056b3;
+button{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:none;
+    border-radius:10px;
+    background:#667eea;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#5563d6;
+}
+
+#result{
+    margin-top:15px;
+    color:green;
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
-    <h2>สมัครสมาชิก</h2>
+<div class="card">
+    <h1>สมัครสมาชิก</h1>
+
     <input type="text" id="username" placeholder="ชื่อผู้ใช้">
     <input type="email" id="email" placeholder="อีเมล">
     <input type="password" id="password" placeholder="รหัสผ่าน">
-    <button onclick="register()">สมัครสมาชิก</button>
+
+    <button onclick="register()">สมัคร</button>
+
+    <div id="result"></div>
 </div>
 
 <script>
-function register() {
+function register(){
     let user = document.getElementById("username").value;
     let email = document.getElementById("email").value;
     let pass = document.getElementById("password").value;
 
-    if(user === "" || email === "" || pass === "") {
-        alert("กรุณากรอกข้อมูลให้ครบ");
-    } else {
-        alert("สมัครสมาชิกสำเร็จ 🎉");
+    if(user === "" || email === "" || pass === ""){
+        alert("กรอกข้อมูลให้ครบก่อนนะ");
+    }else{
+        document.getElementById("result").innerHTML = "สมัครสมาชิกสำเร็จ 🎉";
     }
 }
 </script>
