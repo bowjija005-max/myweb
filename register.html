@@ -1,18 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Register</title>
 <link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
 </head>
+
 <body>
 
 <div class="container">
-<h2>สมัครสมาชิก</h2>
-<input id="username" placeholder="ชื่อผู้ใช้">
-<input id="password" type="password" placeholder="รหัสผ่าน (มากกว่า 5 ตัว)">
-<button onclick="register()">สมัคร</button>
+  <h2>สมัครสมาชิก</h2>
+  <input type="text" id="reg_user" placeholder="Username">
+  <input type="password" id="reg_pass" placeholder="Password">
+  <button onclick="register()">สมัครสมาชิก</button>
+  <p>มีบัญชีแล้ว? <a href="login.html">เข้าสู่ระบบ</a></p>
 </div>
 
+<script src="script.js"></script>
 </body>
 </html>
