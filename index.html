@@ -1,47 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
-<title>สินค้า</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>หน้าแรก</title>
 <link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
 </head>
-<body onload="checkLogin()">
+
+<body onload="loadProducts()">
 
 <header>
-<h2>รายการสินค้า</h2>
-<div>
-<button onclick="location.href='cart.html'">ตะกร้า</button>
-<button onclick="location.href='profile.html'">โปรไฟล์</button>
-<button onclick="logout()">ออก</button>
-</div>
+  <h2>🛒 ร้านค้า</h2>
+  <div>
+    <button onclick="location.href='cart.html'">ตะกร้า</button>
+    <button onclick="location.href='profile.html'">โปรไฟล์</button>
+    <button onclick="location.href='admin.html'">แอดมิน</button>
+    <button onclick="logout()">ออกจากระบบ</button>
+  </div>
 </header>
 
 <div class="container">
-<div class="products">
-
-<div class="card">
-<img src="https://picsum.photos/300/200?1">
-<h3>สินค้า A</h3>
-<p>100 บาท</p>
-<button onclick="addToCart('สินค้า A',100)">เพิ่ม</button>
+  <div id="productList" class="grid"></div>
 </div>
 
-<div class="card">
-<img src="https://picsum.photos/300/200?2">
-<h3>สินค้า B</h3>
-<p>200 บาท</p>
-<button onclick="addToCart('สินค้า B',200)">เพิ่ม</button>
-</div>
-
-<div class="card">
-<img src="https://picsum.photos/300/200?3">
-<h3>สินค้า C</h3>
-<p>300 บาท</p>
-<button onclick="addToCart('สินค้า C',300)">เพิ่ม</button>
-</div>
-
-</div>
-</div>
-
+<script src="script.js"></script>
 </body>
 </html>
