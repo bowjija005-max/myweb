@@ -136,6 +136,29 @@ body{
   border-radius:6px;
   font-size:14px;
 }
+
+/* SUCCESS EFFECT */
+.success-popup{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(0.8);
+  background:white;
+  color:#5b00a5;
+  padding:25px 40px;
+  border-radius:15px;
+  font-weight:bold;
+  font-size:18px;
+  box-shadow:0 0 25px rgba(0,0,0,0.3);
+  opacity:0;
+  transition:0.3s;
+  z-index:9999;
+}
+
+.success-popup.show{
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1);
+}
 </style>
 </head>
 
@@ -165,9 +188,12 @@ body{
 
 <!-- MODAL -->
 <div id="modal" class="modal">
-  <div class="modal-box" id="modalContent">
-    <!-- เนื้อหาเปลี่ยนตามสถานะ -->
-  </div>
+  <div class="modal-box" id="modalContent"></div>
+</div>
+
+<!-- SUCCESS POPUP -->
+<div id="successBox" class="success-popup">
+สมัครสมาชิกสำเร็จ 🎉
 </div>
 
 <script>
@@ -218,7 +244,17 @@ function register(){
   if(localStorage.getItem("user_"+u)){ alert("มีผู้ใช้นี้แล้ว"); return; }
 
   localStorage.setItem("user_"+u, JSON.stringify({password:p, credit:0}));
-  alert("สมัครสำเร็จ");
+
+  showSuccess();
+}
+
+function showSuccess(){
+  const box = document.getElementById("successBox");
+  box.classList.add("show");
+
+  setTimeout(()=>{
+    box.classList.remove("show");
+  },2000);
 }
 
 function login(){
