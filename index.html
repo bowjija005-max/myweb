@@ -1,99 +1,31 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>สมัครสมาชิก</title>
-
-<style>
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
-
-body{
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background: linear-gradient(135deg,#667eea,#764ba2);
-}
-
-.card{
-    background:white;
-    padding:40px;
-    border-radius:20px;
-    width:350px;
-    box-shadow:0 15px 35px rgba(0,0,0,0.2);
-    text-align:center;
-}
-
-.card h1{
-    margin-bottom:25px;
-}
-
-input{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border-radius:10px;
-    border:1px solid #ccc;
-    font-size:15px;
-}
-
-button{
-    width:100%;
-    padding:12px;
-    margin-top:15px;
-    border:none;
-    border-radius:10px;
-    background:#667eea;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-button:hover{
-    background:#5563d6;
-}
-
-#result{
-    margin-top:15px;
-    color:green;
-}
-</style>
+  <title>สมัครสมาชิก</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body>
+<body style="background:black;color:white;text-align:center;font-family:sans-serif;padding-top:80px;">
 
-<div class="card">
-    <h1>สมัครสมาชิก</h1>
+  <h1 style="font-size:40px;">สมัครสมาชิก</h1>
 
-    <input type="text" id="username" placeholder="ชื่อผู้ใช้">
-    <input type="email" id="email" placeholder="อีเมล">
-    <input type="password" id="password" placeholder="รหัสผ่าน">
+  <form action="success.html">
+    
+    <input type="text" placeholder="ชื่อของคุณ" required
+    style="padding:10px;width:250px;margin:10px;"><br>
 
-    <button onclick="register()">สมัคร</button>
+    <input type="email" placeholder="อีเมล" required
+    style="padding:10px;width:250px;margin:10px;"><br>
 
-    <div id="result"></div>
-</div>
+    <input type="password" placeholder="รหัสผ่าน" required
+    style="padding:10px;width:250px;margin:10px;"><br>
 
-<script>
-function register(){
-    let user = document.getElementById("username").value;
-    let email = document.getElementById("email").value;
-    let pass = document.getElementById("password").value;
+    <button type="submit"
+    style="padding:10px 30px;font-size:18px;background:gold;border:none;border-radius:10px;">
+      สมัครสมาชิก
+    </button>
 
-    if(user === "" || email === "" || pass === ""){
-        alert("กรอกข้อมูลให้ครบก่อนนะ");
-    }else{
-        document.getElementById("result").innerHTML = "สมัครสมาชิกสำเร็จ 🎉";
-    }
-}
-</script>
+  </form>
 
 </body>
 </html>
