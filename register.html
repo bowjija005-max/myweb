@@ -1,132 +1,106 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <title>สมัครสมาชิก</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #4e73df, #1cc88a);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<meta charset="UTF-8">
+<title>สมัครสมาชิก</title>
 
-        .box {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            width: 350px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:linear-gradient(135deg,#8e2de2,#4a00e0);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+.box{
+    background:white;
+    padding:30px;
+    width:300px;
+    border-radius:15px;
+    text-align:center;
+}
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
+input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border-radius:5px;
+    border:1px solid #ccc;
+}
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #4e73df;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+button{
+    width:100%;
+    padding:10px;
+    background:#8e2de2;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
 
-        button:hover {
-            background: #2e59d9;
-        }
+button:hover{
+    background:#6c1ed1;
+}
 
-        .login-link {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .login-link a {
-            color: #4e73df;
-            text-decoration: none;
-        }
-
-        .error {
-            color: red;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .success {
-            color: green;
-            font-size: 14px;
-            text-align: center;
-        }
-    </style>
+a{
+    text-decoration:none;
+    color:#8e2de2;
+    font-size:14px;
+}
+</style>
 </head>
+
 <body>
 
 <div class="box">
     <h2>สมัครสมาชิก</h2>
-    <div id="message"></div>
 
-    <input type="text" id="username" placeholder="ชื่อผู้ใช้" required>
-    <input type="email" id="email" placeholder="อีเมล" required>
-    <input type="password" id="password" placeholder="รหัสผ่าน" required>
-    <input type="password" id="confirmPassword" placeholder="ยืนยันรหัสผ่าน" required>
+    <input type="text" id="username" placeholder="ชื่อผู้ใช้">
+    <input type="password" id="password" placeholder="รหัสผ่าน (อย่างน้อย 6 ตัว)">
 
     <button onclick="register()">สมัครสมาชิก</button>
 
-    <div class="login-link">
-        มีบัญชีแล้ว? <a href="login.html">เข้าสู่ระบบ</a>
-    </div>
+    <p>มีบัญชีแล้ว? <a href="login.html">เข้าสู่ระบบ</a></p>
 </div>
 
 <script>
-function register() {
+function register(){
     let username = document.getElementById("username").value.trim();
-    let email = document.getElementById("email").value.trim();
     let password = document.getElementById("password").value;
-    let confirmPassword = document.getElementById("confirmPassword").value;
-    let message = document.getElementById("message");
 
-    message.innerHTML = "";
-
-    if (username === "" || email === "" || password === "" || confirmPassword === "") {
-        message.innerHTML = "<div class='error'>กรุณากรอกข้อมูลให้ครบ</div>";
+    // เช็คข้อมูลว่าง
+    if(username === "" || password === ""){
+        alert("กรุณากรอกข้อมูลให้ครบ");
         return;
     }
 
-    if (password !== confirmPassword) {
-        message.innerHTML = "<div class='error'>รหัสผ่านไม่ตรงกัน</div>";
+    // เช็ครหัสผ่านต้องเกิน 5 ตัว
+    if(password.length <= 5){
+        alert("รหัสผ่านต้องมากกว่า 5 ตัวอักษร");
         return;
     }
 
-    if (localStorage.getItem(username)) {
-        message.innerHTML = "<div class='error'>ชื่อผู้ใช้นี้มีแล้ว</div>";
+    // ดึงข้อมูลผู้ใช้ทั้งหมด
+    let users = JSON.parse(localStorage.getItem("users")) || {};
+
+    // เช็คชื่อซ้ำ
+    if(users[username]){
+        alert("ชื่อผู้ใช้นี้มีคนใช้แล้ว");
         return;
     }
 
-    let userData = {
-        email: email,
+    // บันทึกข้อมูลใหม่
+    users[username] = {
         password: password
     };
 
-    localStorage.setItem(username, JSON.stringify(userData));
+    localStorage.setItem("users", JSON.stringify(users));
 
-    message.innerHTML = "<div class='success'>สมัครสมาชิกสำเร็จ! กำลังไปหน้าเข้าสู่ระบบ...</div>";
-
-    setTimeout(() => {
-        window.location.href = "login.html";
-    }, 2000);
+    alert("สมัครสมาชิกสำเร็จ!");
+    window.location.href = "login.html";
 }
 </script>
 
