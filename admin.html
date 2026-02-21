@@ -1,31 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Admin</title>
-<link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
-</head>
-<body onload="checkLogin()">
+<body onload="requireLogin();checkAdmin();requireAdminVerified();loadAdminProducts();">
 
-<header>
-<h2>แอดมิน</h2>
-<button onclick="location.href='index.html'">กลับ</button>
-</header>
-
-<div class="container">
-<script>
-let user = getCurrentUser();
-if(user.username !== "admin"){
-  document.write("<h3>คุณไม่ใช่แอดมิน</h3>");
-}else{
-  let users = getUsers();
-  document.write("<h3>รายชื่อสมาชิกทั้งหมด</h3>");
-  users.forEach(u=>{
-    document.write("<p>"+u.username+"</p>");
-  });
-}
-</script>
+<div id="adminLoginBox">
+  <h3>ยืนยันตัวตนแอดมิน</h3>
+  <input type="password" id="admin_secret" placeholder="รหัสชั้นที่ 2">
+  <button onclick="if(verifyAdmin()) location.reload()">ยืนยัน</button>
 </div>
 
-</body>
-</html>
+<div id="adminPanel">
+  <h3>เพิ่มสินค้า</h3>
+  <input id="newName" placeholder="ชื่อสินค้า">
+  <input id="newPrice" placeholder="ราคา">
+  <button onclick="addProduct()">เพิ่ม</button>
+
+  <h3>รายการสินค้า</h3>
+  <div id="adminProductList"></div>
+</div>
