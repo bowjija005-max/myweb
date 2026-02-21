@@ -1,108 +1,18 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>สมัครสมาชิก</title>
-
-<style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:linear-gradient(135deg,#8e2de2,#4a00e0);
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.box{
-    background:white;
-    padding:30px;
-    width:300px;
-    border-radius:15px;
-    text-align:center;
-}
-
-input{
-    width:100%;
-    padding:10px;
-    margin:10px 0;
-    border-radius:5px;
-    border:1px solid #ccc;
-}
-
-button{
-    width:100%;
-    padding:10px;
-    background:#8e2de2;
-    color:white;
-    border:none;
-    border-radius:5px;
-    cursor:pointer;
-}
-
-button:hover{
-    background:#6c1ed1;
-}
-
-a{
-    text-decoration:none;
-    color:#8e2de2;
-    font-size:14px;
-}
-</style>
+<title>Register</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
 </head>
-
 <body>
 
-<div class="box">
-    <h2>สมัครสมาชิก</h2>
-
-    <input type="text" id="username" placeholder="ชื่อผู้ใช้">
-    <input type="password" id="password" placeholder="รหัสผ่าน (อย่างน้อย 6 ตัว)">
-
-    <button onclick="register()">สมัครสมาชิก</button>
-
-    <p>มีบัญชีแล้ว? <a href="login.html">เข้าสู่ระบบ</a></p>
+<div class="container">
+<h2>สมัครสมาชิก</h2>
+<input id="username" placeholder="ชื่อผู้ใช้">
+<input id="password" type="password" placeholder="รหัสผ่าน (มากกว่า 5 ตัว)">
+<button onclick="register()">สมัคร</button>
 </div>
-
-<script>
-function register(){
-    let username = document.getElementById("username").value.trim();
-    let password = document.getElementById("password").value;
-
-    // เช็คข้อมูลว่าง
-    if(username === "" || password === ""){
-        alert("กรุณากรอกข้อมูลให้ครบ");
-        return;
-    }
-
-    // เช็ครหัสผ่านต้องเกิน 5 ตัว
-    if(password.length <= 5){
-        alert("รหัสผ่านต้องมากกว่า 5 ตัวอักษร");
-        return;
-    }
-
-    // ดึงข้อมูลผู้ใช้ทั้งหมด
-    let users = JSON.parse(localStorage.getItem("users")) || {};
-
-    // เช็คชื่อซ้ำ
-    if(users[username]){
-        alert("ชื่อผู้ใช้นี้มีคนใช้แล้ว");
-        return;
-    }
-
-    // บันทึกข้อมูลใหม่
-    users[username] = {
-        password: password
-    };
-
-    localStorage.setItem("users", JSON.stringify(users));
-
-    alert("สมัครสมาชิกสำเร็จ!");
-    window.location.href = "login.html";
-}
-</script>
 
 </body>
 </html>
