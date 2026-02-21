@@ -1,53 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>สมัครสมาชิก</title>
+  <title>เข้าสู่ระบบ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body style="background:linear-gradient(to bottom right,#5f6fdc,#7c4dff);
+<body style="background:linear-gradient(135deg,#5f6fdc,#7c4dff);
 display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;">
 
-  <div style="background:white;padding:40px;border-radius:20px;width:300px;text-align:center;">
+<div style="background:white;padding:40px;border-radius:20px;width:300px;text-align:center;">
 
-    <h2>สมัครสมาชิก</h2>
+<h2>เข้าสู่ระบบ</h2>
 
-    <form onsubmit="return validateForm()">
+<form onsubmit="return loginUser()">
 
-      <input type="text" id="username" placeholder="ชื่อ (มากกว่า 8 ตัว)"
-      style="width:100%;padding:10px;margin:10px 0;" required><br>
+<input type="text" id="loginUser" placeholder="ชื่อ"
+style="width:100%;padding:10px;margin:10px 0;" required><br>
 
-      <input type="password" id="password" placeholder="รหัสผ่าน (มากกว่า 5 ตัว)"
-      style="width:100%;padding:10px;margin:10px 0;" required><br>
+<input type="password" id="loginPass" placeholder="รหัสผ่าน"
+style="width:100%;padding:10px;margin:10px 0;" required><br>
 
-      <button type="submit"
-      style="width:100%;padding:10px;background:#5f6fdc;color:white;border:none;border-radius:10px;">
-        สมัคร
-      </button>
+<button type="submit"
+style="width:100%;padding:10px;background:#5f6fdc;color:white;border:none;border-radius:10px;">
+เข้าสู่ระบบ
+</button>
 
-    </form>
+</form>
 
-    <p id="error" style="color:red;"></p>
+<p id="error" style="color:red;"></p>
 
-  </div>
+<p style="margin-top:15px;">
+ยังไม่มีบัญชี?
+<a href="register.html">สมัครสมาชิก</a>
+</p>
+
+</div>
 
 <script>
-function validateForm() {
-  var user = document.getElementById("username").value;
-  var pass = document.getElementById("password").value;
+function loginUser(){
+var user = localStorage.getItem("username");
+var pass = localStorage.getItem("password");
 
-  if (user.length <= 8) {
-    document.getElementById("error").innerText = "ชื่อต้องมากกว่า 8 ตัวอักษร";
-    return false;
-  }
+var inputUser = document.getElementById("loginUser").value;
+var inputPass = document.getElementById("loginPass").value;
 
-  if (pass.length <= 5) {
-    document.getElementById("error").innerText = "รหัสผ่านต้องมากกว่า 5 ตัวอักษร";
-    return false;
-  }
-
-  window.location.href = "success.html";
-  return false;
+if(inputUser === user && inputPass === pass){
+window.location.href="success.html";
+return false;
+}else{
+document.getElementById("error").innerText="ชื่อหรือรหัสไม่ถูกต้อง";
+return false;
+}
 }
 </script>
 
