@@ -7,233 +7,109 @@
 
 <style>
 body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#f8f8f8;
+  margin:0;
+  font-family:sans-serif;
+  background:#f4f4f4;
 }
 
-/* Header */
-.header{
-    background:white;
-    padding:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    box-shadow:0 2px 5px rgba(0,0,0,0.1);
-}
-.logo{
-    font-weight:bold;
-    font-size:22px;
-    color:#ff9900;
-}
+/* ปุ่มเมนู */
 .menu-btn{
-    font-size:22px;
-    cursor:pointer;
+  position:fixed;
+  top:15px;
+  right:15px;
+  background:orange;
+  color:white;
+  border:none;
+  padding:10px 15px;
+  font-size:20px;
+  border-radius:8px;
+  cursor:pointer;
+  z-index:1001;
+}
+
+/* พื้นหลังมืด */
+.overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.4);
+  display:none;
+  z-index:1000;
 }
 
 /* Sidebar */
 .sidebar{
-    position:fixed;
-    right:-260px;
-    top:0;
-    width:250px;
-    height:100%;
-    background:#fff3e0;
-    box-shadow:-2px 0 5px rgba(0,0,0,0.2);
-    transition:0.3s;
-    padding:20px;
+  position:fixed;
+  top:0;
+  right:-260px;
+  width:260px;
+  height:100%;
+  background:#f5e2c8;
+  padding-top:80px;
+  transition:0.3s;
+  z-index:1002;
 }
+
 .sidebar a{
-    display:block;
-    padding:12px;
-    margin:8px 0;
-    background:#ffb300;
-    color:white;
-    text-decoration:none;
-    border-radius:8px;
-    text-align:center;
+  display:block;
+  background:orange;
+  color:white;
+  text-decoration:none;
+  padding:15px;
+  margin:10px;
+  border-radius:10px;
+  text-align:center;
+  font-weight:bold;
 }
+
 .sidebar a:hover{
-    background:#ff9800;
+  background:#ff9900;
 }
+
+/* เมื่อเปิด */
 .sidebar.active{
-    right:0;
+  right:0;
 }
 
-/* Banner */
-.banner{
-    background:#ffcc00;
-    padding:40px;
-    text-align:center;
-    font-size:26px;
-    font-weight:bold;
-    color:#5d4037;
+.overlay.active{
+  display:block;
 }
 
-/* Products */
-.products{
-    padding:20px;
-}
-.card{
-    background:white;
-    margin-bottom:15px;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 2px 5px rgba(0,0,0,0.1);
-}
-.card img{
-    width:100%;
-}
-.card-body{
-    padding:15px;
-}
-.price{
-    color:#ff9800;
-    font-weight:bold;
-}
-.btn{
-    display:block;
-    margin-top:10px;
-    background:#ff9800;
-    color:white;
-    padding:10px;
-    text-align:center;
-    border-radius:8px;
-    text-decoration:none;
-}
-
-/* Login/Register */
-.form-container{
-    display:none;
-    padding:20px;
-}
-.form-box{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 2px 5px rgba(0,0,0,0.1);
-}
-.form-box h2{
-    color:#ff9800;
-}
-input{
-    width:100%;
-    padding:10px;
-    margin:8px 0;
-    border-radius:8px;
-    border:1px solid #ccc;
-}
-button{
-    width:100%;
-    padding:10px;
-    background:#ff9800;
-    color:white;
-    border:none;
-    border-radius:8px;
-}
-.link{
-    text-align:center;
-    margin-top:10px;
-}
-.link span{
-    color:#ff9800;
-    cursor:pointer;
+.content{
+  padding:100px 20px;
+  text-align:center;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-    <div class="logo">MaAt Shop</div>
-    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+<button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+<div id="overlay" class="overlay" onclick="closeMenu()"></div>
+
+<div id="sidebar" class="sidebar">
+  <a href="#">หน้าหลัก</a>
+  <a href="#">เข้าสู่ระบบ</a>
+  <a href="#">สมัครสมาชิก</a>
 </div>
 
-<div class="sidebar" id="sidebar">
-    <a href="#" onclick="showHome()">หน้าหลัก</a>
-    <a href="#" onclick="showLogin()">เข้าสู่ระบบ</a>
-    <a href="#" onclick="showRegister()">สมัครสมาชิก</a>
-</div>
-
-<!-- หน้าแรก -->
-<div id="home">
-
-<div class="banner">
-บริการจำหน่ายสินค้า BLOX FRUITS
-</div>
-
-<div class="products">
-
-<div class="card">
-<img src="https://via.placeholder.com/600x300">
-<div class="card-body">
-<h3>ไอดี BLOX FRUITS</h3>
-<p class="price">ราคา 49 บาท</p>
-<a href="#" class="btn">สั่งซื้อตอนนี้</a>
-</div>
-</div>
-
-<div class="card">
-<img src="https://via.placeholder.com/600x300">
-<div class="card-body">
-<h3>ไอดี LV.MAX</h3>
-<p class="price">ราคา 129 บาท</p>
-<a href="#" class="btn">สั่งซื้อตอนนี้</a>
-</div>
-</div>
-
-</div>
-</div>
-
-<!-- Login -->
-<div class="form-container" id="login">
-<div class="form-box">
-<h2>เข้าสู่ระบบ</h2>
-<input type="text" placeholder="Username">
-<input type="password" placeholder="Password">
-<button>เข้าสู่ระบบ</button>
-<div class="link">
-ยังไม่มีบัญชี? <span onclick="showRegister()">สมัครสมาชิก</span>
-</div>
-</div>
-</div>
-
-<!-- Register -->
-<div class="form-container" id="register">
-<div class="form-box">
-<h2>สมัครสมาชิก</h2>
-<input type="text" placeholder="Username">
-<input type="password" placeholder="Password">
-<input type="password" placeholder="Confirm Password">
-<input type="text" placeholder="PIN 6 หลัก">
-<button>สมัครสมาชิก</button>
-<div class="link">
-มีบัญชีแล้ว? <span onclick="showLogin()">เข้าสู่ระบบ</span>
-</div>
-</div>
+<div class="content">
+  <h2>ยินดีต้อนรับสู่ MaAt Shop</h2>
+  <p>นี่คือหน้าเว็บตัวอย่าง</p>
 </div>
 
 <script>
 function toggleMenu(){
-    document.getElementById("sidebar").classList.toggle("active");
+  document.getElementById("sidebar").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
 }
 
-function showHome(){
-    document.getElementById("home").style.display="block";
-    document.getElementById("login").style.display="none";
-    document.getElementById("register").style.display="none";
-}
-
-function showLogin(){
-    document.getElementById("home").style.display="none";
-    document.getElementById("login").style.display="block";
-    document.getElementById("register").style.display="none";
-}
-
-function showRegister(){
-    document.getElementById("home").style.display="none";
-    document.getElementById("login").style.display="none";
-    document.getElementById("register").style.display="block";
+function closeMenu(){
+  document.getElementById("sidebar").classList.remove("active");
+  document.getElementById("overlay").classList.remove("active");
 }
 </script>
 
