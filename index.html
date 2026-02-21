@@ -3,50 +3,239 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bubble Shop</title>
+<title>MaAt Shop</title>
 
 <style>
 body{
     margin:0;
-    font-family:Arial;
-    background:#6a00a8;
-    color:white;
+    font-family:Arial, sans-serif;
+    background:#f8f8f8;
 }
 
-header{
+/* Header */
+.header{
+    background:white;
+    padding:15px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:15px 20px;
-    background:rgba(0,0,0,0.2);
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
-
-.header-buttons button{
-    margin-left:8px;
-}
-
-button{
-    padding:8px 15px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
+.logo{
     font-weight:bold;
+    font-size:22px;
+    color:#ff9900;
+}
+.menu-btn{
+    font-size:22px;
+    cursor:pointer;
 }
 
-.login-btn{ background:#4cc9f0; color:white; }
-.register-btn{ background:#ff9e00; color:white; }
+/* Sidebar */
+.sidebar{
+    position:fixed;
+    right:-260px;
+    top:0;
+    width:250px;
+    height:100%;
+    background:#fff3e0;
+    box-shadow:-2px 0 5px rgba(0,0,0,0.2);
+    transition:0.3s;
+    padding:20px;
+}
+.sidebar a{
+    display:block;
+    padding:12px;
+    margin:8px 0;
+    background:#ffb300;
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    text-align:center;
+}
+.sidebar a:hover{
+    background:#ff9800;
+}
+.sidebar.active{
+    right:0;
+}
 
-.container{ padding:20px; text-align:center; }
+/* Banner */
+.banner{
+    background:#ffcc00;
+    padding:40px;
+    text-align:center;
+    font-size:26px;
+    font-weight:bold;
+    color:#5d4037;
+}
 
+/* Products */
 .products{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-    margin-top:20px;
+    padding:20px;
 }
-
 .card{
     background:white;
-    color:black;
+    margin-bottom:15px;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+.card img{
+    width:100%;
+}
+.card-body{
+    padding:15px;
+}
+.price{
+    color:#ff9800;
+    font-weight:bold;
+}
+.btn{
+    display:block;
+    margin-top:10px;
+    background:#ff9800;
+    color:white;
+    padding:10px;
+    text-align:center;
+    border-radius:8px;
+    text-decoration:none;
+}
+
+/* Login/Register */
+.form-container{
+    display:none;
     padding:20px;
-    border-radius:15px
+}
+.form-box{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+.form-box h2{
+    color:#ff9800;
+}
+input{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+button{
+    width:100%;
+    padding:10px;
+    background:#ff9800;
+    color:white;
+    border:none;
+    border-radius:8px;
+}
+.link{
+    text-align:center;
+    margin-top:10px;
+}
+.link span{
+    color:#ff9800;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="logo">MaAt Shop</div>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+</div>
+
+<div class="sidebar" id="sidebar">
+    <a href="#" onclick="showHome()">หน้าหลัก</a>
+    <a href="#" onclick="showLogin()">เข้าสู่ระบบ</a>
+    <a href="#" onclick="showRegister()">สมัครสมาชิก</a>
+</div>
+
+<!-- หน้าแรก -->
+<div id="home">
+
+<div class="banner">
+บริการจำหน่ายสินค้า BLOX FRUITS
+</div>
+
+<div class="products">
+
+<div class="card">
+<img src="https://via.placeholder.com/600x300">
+<div class="card-body">
+<h3>ไอดี BLOX FRUITS</h3>
+<p class="price">ราคา 49 บาท</p>
+<a href="#" class="btn">สั่งซื้อตอนนี้</a>
+</div>
+</div>
+
+<div class="card">
+<img src="https://via.placeholder.com/600x300">
+<div class="card-body">
+<h3>ไอดี LV.MAX</h3>
+<p class="price">ราคา 129 บาท</p>
+<a href="#" class="btn">สั่งซื้อตอนนี้</a>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- Login -->
+<div class="form-container" id="login">
+<div class="form-box">
+<h2>เข้าสู่ระบบ</h2>
+<input type="text" placeholder="Username">
+<input type="password" placeholder="Password">
+<button>เข้าสู่ระบบ</button>
+<div class="link">
+ยังไม่มีบัญชี? <span onclick="showRegister()">สมัครสมาชิก</span>
+</div>
+</div>
+</div>
+
+<!-- Register -->
+<div class="form-container" id="register">
+<div class="form-box">
+<h2>สมัครสมาชิก</h2>
+<input type="text" placeholder="Username">
+<input type="password" placeholder="Password">
+<input type="password" placeholder="Confirm Password">
+<input type="text" placeholder="PIN 6 หลัก">
+<button>สมัครสมาชิก</button>
+<div class="link">
+มีบัญชีแล้ว? <span onclick="showLogin()">เข้าสู่ระบบ</span>
+</div>
+</div>
+</div>
+
+<script>
+function toggleMenu(){
+    document.getElementById("sidebar").classList.toggle("active");
+}
+
+function showHome(){
+    document.getElementById("home").style.display="block";
+    document.getElementById("login").style.display="none";
+    document.getElementById("register").style.display="none";
+}
+
+function showLogin(){
+    document.getElementById("home").style.display="none";
+    document.getElementById("login").style.display="block";
+    document.getElementById("register").style.display="none";
+}
+
+function showRegister(){
+    document.getElementById("home").style.display="none";
+    document.getElementById("login").style.display="none";
+    document.getElementById("register").style.display="block";
+}
+</script>
+
+</body>
+</html>
