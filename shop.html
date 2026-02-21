@@ -2,68 +2,67 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>BUBBLE SHOP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>หน้าสินค้า</title>
 <style>
 body{
-    margin:0;
-    font-family:Arial;
-    background: linear-gradient(45deg,#6a00ff,#a000ff);
-    color:white;
-    text-align:center;
+  margin:0; font-family:Arial; color:#fff;
+  background: linear-gradient(135deg,#6a00ff,#a000ff);
+  text-align:center;
 }
-.header{
-    padding:40px;
-}
-.card-container{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:20px;
-    padding:20px;
+.header{ padding:30px 20px; }
+.products{
+  display:flex; flex-wrap:wrap; justify-content:center; gap:20px; padding:20px;
 }
 .card{
-    background:white;
-    color:black;
-    width:200px;
-    padding:20px;
-    border-radius:15px;
+  background:#fff; color:#000; width:220px;
+  padding:20px; border-radius:15px;
 }
 button{
-    background:#8a2be2;
-    color:white;
-    border:none;
-    padding:10px;
-    border-radius:8px;
-    margin-top:10px;
+  padding:10px 15px; border:none; border-radius:8px;
+  background:#8a2be2; color:#fff; cursor:pointer;
+}
+.logout{
+  background:#ff4d4d; margin-top:15px;
 }
 </style>
 </head>
 <body>
 
 <div class="header">
-<h1>BUBBLE SHOP</h1>
-<p>บริการขาย Robux</p>
+  <h1>ร้านค้าของฉัน</h1>
+  <p id="welcome"></p>
+  <button class="logout" onclick="logout()">ออกจากระบบ</button>
 </div>
 
-<div class="card-container">
-<div class="card">
-<h3>สินค้า 1</h3>
-<p>ราคา 100 บาท</p>
-<button>ซื้อเลย</button>
+<div class="products">
+  <div class="card">
+    <h3>สินค้า A</h3>
+    <p>ราคา 100 บาท</p>
+    <button>ซื้อเลย</button>
+  </div>
+  <div class="card">
+    <h3>สินค้า B</h3>
+    <p>ราคา 200 บาท</p>
+    <button>ซื้อเลย</button>
+  </div>
+  <div class="card">
+    <h3>สินค้า C</h3>
+    <p>ราคา 300 บาท</p>
+    <button>ซื้อเลย</button>
+  </div>
 </div>
 
-<div class="card">
-<h3>สินค้า 2</h3>
-<p>ราคา 200 บาท</p>
-<button>ซื้อเลย</button>
-</div>
+<script>
+if(localStorage.getItem("loggedIn") !== "true"){
+  window.location.href = "./login.html"; // กันเข้าโดยไม่ล็อกอิน
+}
 
-<div class="card">
-<h3>สินค้า 3</h3>
-<p>ราคา 300 บาท</p>
-<button>ซื้อเลย</button>
-</div>
-</div>
+const user = localStorage.getItem("user");
+document.getElementById("welcome").innerText = "ยินดีต้อนรับ " + user;
 
-</body>
-</html>
+function logout(){
+  localStorage.removeItem("loggedIn");
+  window.location.href = "./login.html";
+}
+</script
