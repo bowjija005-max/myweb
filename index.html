@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>เข้าสู่ระบบ</title>
+<title>ระบบสมาชิก</title>
 <style>
 body{
   font-family: Arial, sans-serif;
@@ -32,35 +32,77 @@ button{
   color:white;
   border:none;
   border-radius:6px;
+  cursor:pointer;
+}
+.switch{
+  text-align:center;
+  margin-top:12px;
+  color:blue;
+  cursor:pointer;
 }
 .error{ color:red; font-size:14px; }
+.success{ color:green; font-size:14px; }
 </style>
 </head>
 <body>
 
 <div class="box">
-  <h2>เข้าสู่ระบบ</h2>
+  <h2 id="title">เข้าสู่ระบบ</h2>
   <div id="message"></div>
 
   <input type="text" id="username" placeholder="ชื่อผู้ใช้">
   <input type="password" id="password" placeholder="รหัสผ่าน">
 
-  <button onclick="login()">เข้าสู่ระบบ</button>
+  <button onclick="submitForm()">ยืนยัน</button>
+
+  <div class="switch" onclick="toggleForm()" id="toggleText">
+    สมัครสมาชิก
+  </div>
 </div>
 
 <script>
-function login(){
+let isLogin = true;
+
+function toggleForm(){
+  isLogin = !isLogin;
+  document.getElementById("title").innerText =
+      isLogin ? "เข้าสู่ระบบ" : "สมัครสมาชิก";
+  document.getElementById("toggleText").innerText =
+      isLogin ? "สมัครสมาชิก" : "เข้าสู่ระบบ";
+  document.getElementById("message").innerHTML = "";
+}
+
+function submitForm(){
   let user = document.getElementById("username").value.trim();
   let pass = document.getElementById("password").value.trim();
   let msg = document.getElementById("message");
 
-  let savedUser = localStorage.getItem("user");
-  let savedPass = localStorage.getItem("pass");
+  if(!isLogin){
+    // สมัครสมาชิก
+    if(user.length < 8){
+      msg.innerHTML = "<div class='error'>ชื่อต้องอย่างน้อย 8 ตัวอักษร</div>";
+      return;
+    }
+    if(pass.length < 6){
+      msg.innerHTML = "<div class='error'>รหัสต้องอย่างน้อย 6 ตัวอักษร</div>";
+      return;
+    }
 
-  if(user === savedUser && pass === savedPass){
-    window.location.href = "./success.html"; // สำคัญมาก
+    localStorage.setItem("user", user);
+    localStorage.setItem("pass", pass);
+
+    msg.innerHTML = "<div class='success'>สมัครสำเร็จ! กรุณาเข้าสู่ระบบ</div>";
+    toggleForm();
   }else{
-    msg.innerHTML = "<div class='error'>ชื่อหรือรหัสไม่ถูกต้อง</div>";
+    // เข้าสู่ระบบ
+    let savedUser = localStorage.getItem("user");
+    let savedPass = localStorage.getItem("pass");
+
+    if(user === savedUser && pass === savedPass){
+      window.location.href = "./success.html"; // ไม่ 404 แน่นอน
+    }else{
+      msg.innerHTML = "<div class='error'>ชื่อหรือรหัสไม่ถูกต้อง</div>";
+    }
   }
 }
 </script>
