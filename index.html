@@ -24,4 +24,85 @@
 
         .logout-btn {
             margin-top: 15px;
-            padding
+            padding: 8px 15px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .products {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: white;
+            color: black;
+            padding: 20px;
+            width: 250px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        .buy-btn {
+            padding: 8px 15px;
+            background: #8e2de2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .buy-btn:hover {
+            background: #6a11cb;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    // 🔐 บังคับ login ก่อนเข้าเว็บ
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "login.html";
+    }
+
+    function logout() {
+        localStorage.removeItem("isLoggedIn");
+        window.location.href = "login.html";
+    }
+
+    function buyProduct(productName) {
+        alert("คุณซื้อ " + productName + " เรียบร้อยแล้ว!");
+    }
+</script>
+
+<div class="header">
+    <h1>ร้านค้าของฉัน</h1>
+    <button class="logout-btn" onclick="logout()">ออกจากระบบ</button>
+</div>
+
+<div class="products">
+    <div class="card">
+        <h3>สินค้า A</h3>
+        <p>ราคา 100 บาท</p>
+        <button class="buy-btn" onclick="buyProduct('สินค้า A')">ซื้อสินค้า</button>
+    </div>
+
+    <div class="card">
+        <h3>สินค้า B</h3>
+        <p>ราคา 200 บาท</p>
+        <button class="buy-btn" onclick="buyProduct('สินค้า B')">ซื้อสินค้า</button>
+    </div>
+</div>
+
+</body>
+</html>
