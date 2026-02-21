@@ -1,18 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>สมัครสำเร็จ</title>
+  <title>สมัครสมาชิก</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body style="background:darkgreen;color:white;text-align:center;font-family:sans-serif;padding-top:100px;">
+<body style="background:linear-gradient(135deg,#7c4dff,#5f6fdc);
+display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;">
 
-  <h1 style="font-size:45px;">สมัครสมาชิกสำเร็จ 🎉</h1>
-  <p>ยินดีต้อนรับเข้าสู่เว็บไซต์</p>
+<div style="background:white;padding:40px;border-radius:20px;width:300px;text-align:center;">
 
-  <a href="index.html" style="color:yellow;font-size:20px;">
-    กลับหน้าแรก
-  </a>
+<h2>สมัครสมาชิก</h2>
+
+<form onsubmit="return registerUser()">
+
+<input type="text" id="username" placeholder="ชื่อ (มากกว่า 8 ตัว)"
+style="width:100%;padding:10px;margin:10px 0;" required><br>
+
+<input type="password" id="password" placeholder="รหัส (มากกว่า 5 ตัว)"
+style="width:100%;padding:10px;margin:10px 0;" required><br>
+
+<button type="submit"
+style="width:100%;padding:10px;background:#7c4dff;color:white;border:none;border-radius:10px;">
+สมัคร
+</button>
+
+</form>
+
+<p id="error" style="color:red;"></p>
+
+<p style="margin-top:15px;">
+มีบัญชีแล้ว?
+<a href="login.html">เข้าสู่ระบบ</a>
+</p>
+
+</div>
+
+<script>
+function registerUser(){
+var user = document.getElementById("username").value;
+var pass = document.getElementById("password").value;
+
+if(user.length <= 8){
+document.getElementById("error").innerText="ชื่อต้องมากกว่า 8 ตัวอักษร";
+return false;
+}
+
+if(pass.length <= 5){
+document.getElementById("error").innerText="รหัสต้องมากกว่า 5 ตัวอักษร";
+return false;
+}
+
+localStorage.setItem("username",user);
+localStorage.setItem("password",pass);
+
+window.location.href="login.html";
+return false;
+}
+</script>
 
 </body>
 </html>
