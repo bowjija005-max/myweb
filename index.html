@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaAt Shop</title>
+<title>Shop System</title>
 
 <style>
 body{
@@ -27,11 +27,9 @@ body{
   z-index:1001;
 }
 
-/* พื้นหลังมืด */
+/* พื้นหลัง */
 .overlay{
   position:fixed;
-  top:0;
-  left:0;
   width:100%;
   height:100%;
   background:rgba(0,0,0,0.4);
@@ -39,12 +37,16 @@ body{
   z-index:1000;
 }
 
+.overlay.active{
+  display:block;
+}
+
 /* Sidebar */
 .sidebar{
   position:fixed;
   top:0;
-  right:-260px;
-  width:260px;
+  right:-270px;
+  width:270px;
   height:100%;
   background:#f5e2c8;
   padding-top:80px;
@@ -52,34 +54,46 @@ body{
   z-index:1002;
 }
 
-.sidebar a{
-  display:block;
-  background:orange;
-  color:white;
-  text-decoration:none;
-  padding:15px;
-  margin:10px;
-  border-radius:10px;
-  text-align:center;
-  font-weight:bold;
-}
-
-.sidebar a:hover{
-  background:#ff9900;
-}
-
-/* เมื่อเปิด */
 .sidebar.active{
   right:0;
 }
 
-.overlay.active{
+.sidebar button{
   display:block;
+  width:85%;
+  margin:10px auto;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:orange;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.sidebar button:hover{
+  background:#ff9900;
+}
+
+input{
+  width:85%;
+  padding:10px;
+  margin:6px auto;
+  display:block;
+  border-radius:8px;
+  border:1px solid #ccc;
 }
 
 .content{
   padding:100px 20px;
   text-align:center;
+}
+
+.admin-box{
+  background:white;
+  padding:20px;
+  margin-top:20px;
+  border-radius:10px;
 }
 </style>
 </head>
@@ -91,27 +105,70 @@ body{
 <div id="overlay" class="overlay" onclick="closeMenu()"></div>
 
 <div id="sidebar" class="sidebar">
-  <a href="#">หน้าหลัก</a>
-  <a href="#">เข้าสู่ระบบ</a>
-  <a href="#">สมัครสมาชิก</a>
+  <div id="authArea"></div>
 </div>
 
 <div class="content">
-  <h2>ยินดีต้อนรับสู่ MaAt Shop</h2>
-  <p>นี่คือหน้าเว็บตัวอย่าง</p>
+  <h2 id="welcomeText">ยินดีต้อนรับ</h2>
+  <div id="adminPanel"></div>
 </div>
 
 <script>
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+const authArea = document.getElementById("authArea");
+const welcomeText = document.getElementById("welcomeText");
+const adminPanel = document.getElementById("adminPanel");
+
+/* เปิด/ปิดเมนู */
 function toggleMenu(){
-  document.getElementById("sidebar").classList.toggle("active");
-  document.getElementById("overlay").classList.toggle("active");
+  sidebar.classList.toggle("active");
+  overlay.classList.toggle("active");
 }
 
 function closeMenu(){
-  document.getElementById("sidebar").classList.remove("active");
-  document.getElementById("overlay").classList.remove("active");
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
 }
-</script>
 
-</body>
-</html>
+/* แสดง UI ตามสถานะ */
+function render(){
+  const currentUser = localStorage.getItem("currentUser");
+
+  adminPanel.innerHTML = "";
+
+  if(!currentUser){
+    welcomeText.innerText = "ยินดีต้อนรับ";
+
+    authArea.innerHTML = `
+      <input id="username" placeholder="ชื่อผู้ใช้">
+      <input id="password" type="password" placeholder="รหัสผ่าน">
+      <button onclick="register()">สร้างบัญชี</button>
+      <button onclick="login()">เข้าสู่ระบบ</button>
+    `;
+    return;
+  }
+
+  welcomeText.innerText = "สวัสดี " + currentUser;
+
+  if(currentUser === "admin"){
+    authArea.innerHTML = `
+      <button onclick="showAdmin()">เข้า Admin Panel</button>
+      <button onclick="logout()">ออกจากระบบ</button>
+    `;
+  }else{
+    authArea.innerHTML = `
+      <button onclick="logout()">ออกจากระบบ</button>
+    `;
+  }
+}
+
+/* สมัคร */
+function register(){
+  const user = document.getElementById("username").value.trim();
+  const pass = document.getElementById("password").value.trim();
+
+  if(!user || !pass){
+    alert("กรอกข้อมูลให้ครบ");
+    return;
+  }
