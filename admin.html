@@ -2,46 +2,11 @@
 <html>
 <head>
   <title>Admin Panel</title>
-  <link rel="stylesheet" href="style.css">
 </head>
-
-<body onload="checkAdmin(); loadUsers();">
-
-  <h1>🔐 Admin Panel</h1>
-  <p>ยินดีต้อนรับผู้ดูแลระบบ</p>
-
-  <hr>
-
-  <h2>ข้อมูลสมาชิก</h2>
-  <div id="userList"></div>
-
-  <br>
-  <button onclick="clearUser()">ลบสมาชิกทั้งหมด</button>
-  <button onclick="logout()">ออกจากระบบ</button>
+<body>
+  <h1>ยินดีต้อนรับ Admin 🔥</h1>
+  <button onclick="logout()">Logout</button>
 
   <script src="script.js"></script>
-
-  <script>
-    function loadUsers(){
-      let user = localStorage.getItem("username");
-      let pass = localStorage.getItem("password");
-
-      if(user && pass){
-        document.getElementById("userList").innerHTML =
-          "<b>Username:</b> " + user + "<br><b>Password:</b> " + pass;
-      } else {
-        document.getElementById("userList").innerHTML =
-          "ไม่มีสมาชิก";
-      }
-    }
-
-    function clearUser(){
-      localStorage.removeItem("username");
-      localStorage.removeItem("password");
-      alert("ลบสมาชิกเรียบร้อย");
-      loadUsers();
-    }
-  </script>
-
 </body>
 </html>
