@@ -1,18 +1,88 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
-  <title>Login</title>
+  <meta charset="UTF-8">
+  <title>Login System</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #111;
+      color: white;
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    .box {
+      background: #222;
+      padding: 30px;
+      width: 300px;
+      margin: auto;
+      border-radius: 10px;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #00ff99;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .admin {
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
+<div class="box" id="loginBox">
   <h2>เข้าสู่ระบบ</h2>
-
-  <input type="text" id="username" placeholder="Username"><br><br>
-  <input type="password" id="password" placeholder="Password"><br><br>
-
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
   <button onclick="login()">Login</button>
+</div>
 
-  <script src="script.js"></script>
+<div class="box admin" id="adminBox">
+  <h2>ยินดีต้อนรับ Admin 🔥</h2>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+  function login() {
+    var user = document.getElementById("username").value;
+    var pass = document.getElementById("password").value;
+
+    if (user === "admin" && pass === "12345") {
+      localStorage.setItem("login", "true");
+      showAdmin();
+    } else {
+      alert("รหัสไม่ถูกต้อง");
+    }
+  }
+
+  function logout() {
+    localStorage.removeItem("login");
+    location.reload();
+  }
+
+  function showAdmin() {
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("adminBox").style.display = "block";
+  }
+
+  if (localStorage.getItem("login") === "true") {
+    showAdmin();
+  }
+</script>
 
 </body>
 </html>
