@@ -1,28 +1,35 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>หน้าแรก</title>
-<link rel="stylesheet" href="style.css">
+  <title>ร้านค้า</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+<body>
 
-<body onload="loadProducts()">
+  <h1>🛒 ร้านค้า</h1>
 
-<header>
-  <h2>🛒 ร้านค้า</h2>
-  <div>
-    <button onclick="location.href='cart.html'">ตะกร้า</button>
-    <button onclick="location.href='profile.html'">โปรไฟล์</button>
-    <button onclick="location.href='admin.html'">แอดมิน</button>
+  <div class="top-menu">
+    <button onclick="goCart()">ตะกร้า</button>
+    <button onclick="goProfile()">โปรไฟล์</button>
     <button onclick="logout()">ออกจากระบบ</button>
   </div>
-</header>
 
-<div class="container">
-  <div id="productList" class="grid"></div>
-</div>
+  <div class="products">
 
-<script src="script.js"></script>
+    <div class="card">
+      <h2>VIP 30 วัน</h2>
+      <p>100 บาท</p>
+      <button onclick="addToCart('VIP 30 วัน', 100)">เพิ่ม</button>
+    </div>
+
+    <div class="card">
+      <h2>VIP 90 วัน</h2>
+      <p>250 บาท</p>
+      <button onclick="addToCart('VIP 90 วัน', 250)">เพิ่ม</button>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
