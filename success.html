@@ -1,61 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
-  <title>สมัครสมาชิก</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สำเร็จ</title>
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#1e1e2f;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  flex-direction:column;
+}
+button{
+  padding:10px 20px;
+  margin-top:20px;
+  border:none;
+  background:#ff4d4d;
+  color:white;
+  border-radius:6px;
+}
+</style>
 </head>
+<body>
 
-<body style="background:linear-gradient(135deg,#7c4dff,#5f6fdc);
-display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;">
-
-<div style="background:white;padding:40px;border-radius:20px;width:300px;text-align:center;">
-
-<h2>สมัครสมาชิก</h2>
-
-<form onsubmit="return registerUser()">
-
-<input type="text" id="username" placeholder="ชื่อ (มากกว่า 8 ตัว)"
-style="width:100%;padding:10px;margin:10px 0;" required><br>
-
-<input type="password" id="password" placeholder="รหัส (มากกว่า 5 ตัว)"
-style="width:100%;padding:10px;margin:10px 0;" required><br>
-
-<button type="submit"
-style="width:100%;padding:10px;background:#7c4dff;color:white;border:none;border-radius:10px;">
-สมัคร
-</button>
-
-</form>
-
-<p id="error" style="color:red;"></p>
-
-<p style="margin-top:15px;">
-มีบัญชีแล้ว?
-<a href="login.html">เข้าสู่ระบบ</a>
-</p>
-
-</div>
+<h1>เข้าสู่ระบบสำเร็จ 🎉</h1>
+<p id="showUser"></p>
+<button onclick="logout()">ออกจากระบบ</button>
 
 <script>
-function registerUser(){
-var user = document.getElementById("username").value;
-var pass = document.getElementById("password").value;
+let user = localStorage.getItem("user");
 
-if(user.length <= 8){
-document.getElementById("error").innerText="ชื่อต้องมากกว่า 8 ตัวอักษร";
-return false;
+if(!user){
+  window.location.href = "./index.html"; // ป้องกัน 404
+}else{
+  document.getElementById("showUser").innerText = "ยินดีต้อนรับ " + user;
 }
 
-if(pass.length <= 5){
-document.getElementById("error").innerText="รหัสต้องมากกว่า 5 ตัวอักษร";
-return false;
-}
-
-localStorage.setItem("username",user);
-localStorage.setItem("password",pass);
-
-window.location.href="login.html";
-return false;
+function logout(){
+  window.location.href = "./index.html";
 }
 </script>
 
