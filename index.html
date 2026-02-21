@@ -1,34 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ร้านค้า</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Login</title>
 </head>
 <body>
+  <h2>เข้าสู่ระบบ</h2>
 
-  <h1>🛒 ร้านค้า</h1>
+  <input type="text" id="username" placeholder="Username"><br><br>
+  <input type="password" id="password" placeholder="Password"><br><br>
 
-  <div class="top-menu">
-    <button onclick="goCart()">ตะกร้า</button>
-    <button onclick="goProfile()">โปรไฟล์</button>
-    <button onclick="logout()">ออกจากระบบ</button>
-  </div>
-
-  <div class="products">
-
-    <div class="card">
-      <h2>VIP 30 วัน</h2>
-      <p>100 บาท</p>
-      <button onclick="addToCart('VIP 30 วัน', 100)">เพิ่ม</button>
-    </div>
-
-    <div class="card">
-      <h2>VIP 90 วัน</h2>
-      <p>250 บาท</p>
-      <button onclick="addToCart('VIP 90 วัน', 250)">เพิ่ม</button>
-    </div>
-
-  </div>
+  <button onclick="login()">Login</button>
 
   <script src="script.js"></script>
 </body>
