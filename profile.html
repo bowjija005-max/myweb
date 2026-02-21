@@ -1,1 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>โปรไฟล์</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
+</head>
+<body onload="checkLogin()">
 
+<header>
+<h2>โปรไฟล์</h2>
+<button onclick="location.href='index.html'">กลับ</button>
+</header>
+
+<div class="container">
+<script>
+let user = getCurrentUser();
+document.write("<h3>ชื่อผู้ใช้: "+user.username+"</h3>");
+</script>
+</div>
+
+</body>
+</html>
