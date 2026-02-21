@@ -22,6 +22,7 @@ button{
   background:#ff4d4d;
   color:white;
   border-radius:6px;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -35,7 +36,7 @@ button{
 let user = localStorage.getItem("user");
 
 if(!user){
-  window.location.href = "./index.html"; // ป้องกัน 404
+  window.location.href = "./index.html";
 }else{
   document.getElementById("showUser").innerText = "ยินดีต้อนรับ " + user;
 }
