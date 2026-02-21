@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Shop</title>
+<title>Working Website</title>
 
 <style>
 body{
   margin:0;
-  font-family:Arial, sans-serif;
-  background:#f4f4f4;
+  font-family:Arial;
 }
 
 /* ปุ่มเมนู */
@@ -17,77 +16,60 @@ body{
   position:fixed;
   top:15px;
   right:15px;
-  background:#ff9800;
+  background:orange;
   color:white;
   border:none;
   padding:10px 15px;
   font-size:20px;
-  border-radius:8px;
   cursor:pointer;
   z-index:1001;
 }
 
-/* พื้นหลังมืด */
+/* เมนูเลื่อน */
+.sidebar{
+  position:fixed;
+  top:0;
+  right:-250px;
+  width:250px;
+  height:100%;
+  background:#ffe0b2;
+  transition:0.3s;
+  padding-top:80px;
+  z-index:1000;
+}
+
+.sidebar.active{
+  right:0;
+}
+
 .overlay{
   position:fixed;
   width:100%;
   height:100%;
   background:rgba(0,0,0,0.4);
   display:none;
-  z-index:1000;
 }
-.overlay.active{ display:block; }
 
-/* Sidebar */
-.sidebar{
-  position:fixed;
-  top:0;
-  right:-270px;
-  width:270px;
-  height:100%;
-  background:#fff3e0;
-  padding-top:80px;
-  transition:0.3s;
-  z-index:1002;
+.overlay.active{
+  display:block;
 }
-.sidebar.active{ right:0; }
 
 .sidebar button{
   display:block;
-  width:85%;
+  width:80%;
   margin:10px auto;
-  padding:12px;
+  padding:10px;
   border:none;
-  border-radius:10px;
-  background:#ff9800;
+  background:orange;
   color:white;
-  font-weight:bold;
   cursor:pointer;
 }
 
-.sidebar button:hover{
-  background:#e68900;
-}
-
 input{
-  width:85%;
-  padding:10px;
-  margin:6px auto;
   display:block;
-  border-radius:8px;
-  border:1px solid #ccc;
-}
-
-.content{
-  padding:100px 20px;
-  text-align:center;
-}
-
-.admin-box{
-  background:white;
-  padding:20px;
-  margin-top:20px;
-  border-radius:10px;
+  width:80%;
+  margin:5px auto;
+  padding:8px;
 }
 </style>
 </head>
@@ -96,93 +78,99 @@ input{
 
 <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
-<div id="overlay" class="overlay" onclick="closeMenu()"></div>
+<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
 <div id="sidebar" class="sidebar">
   <div id="authArea"></div>
 </div>
 
-<div class="content">
-  <h2 id="welcomeText">ยินดีต้อนรับ</h2>
-  <div id="adminPanel"></div>
-</div>
+<h2 style="margin-top:100px;text-align:center;" id="welcome">
+ยินดีต้อนรับ
+</h2>
 
 <script>
-const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("overlay");
-const authArea = document.getElementById("authArea");
-const welcomeText = document.getElementById("welcomeText");
-const adminPanel = document.getElementById("adminPanel");
-
-/* เปิด-ปิดเมนู */
 function toggleMenu(){
-  sidebar.classList.toggle("active");
-  overlay.classList.toggle("active");
+  document.getElementById("sidebar").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
 }
 
-function closeMenu(){
-  sidebar.classList.remove("active");
-  overlay.classList.remove("active");
-}
-
-/* แสดงเมนูตามสถานะ */
 function render(){
-  const currentUser = localStorage.getItem("currentUser");
-  adminPanel.innerHTML = "";
+  const user = localStorage.getItem("currentUser");
+  const authArea = document.getElementById("authArea");
+  const welcome = document.getElementById("welcome");
 
-  if(!currentUser){
-    welcomeText.innerText = "ยินดีต้อนรับ";
+  if(!user){
+    welcome.innerText = "ยินดีต้อนรับ";
     authArea.innerHTML = `
       <input id="username" placeholder="ชื่อผู้ใช้">
       <input id="password" type="password" placeholder="รหัสผ่าน">
-      <button onclick="register()">สมัครสมาชิก</button>
+      <button onclick="register()">สมัคร</button>
       <button onclick="login()">เข้าสู่ระบบ</button>
     `;
-    return;
-  }
+  } else {
+    welcome.innerText = "สวัสดี " + user;
 
-  welcomeText.innerText = "สวัสดี " + currentUser;
-
-  if(currentUser === "admin"){
-    authArea.innerHTML = `
-      <button onclick="showAdmin()">เข้า Admin Panel</button>
-      <button onclick="logout()">ออกจากระบบ</button>
-    `;
-  }else{
-    authArea.innerHTML = `
-      <button onclick="logout()">ออกจากระบบ</button>
-    `;
+    if(user === "admin"){
+      authArea.innerHTML = `
+        <button onclick="alert('เข้า Admin ได้แล้ว')">Admin Panel</button>
+        <button onclick="logout()">ออกจากระบบ</button>
+      `;
+    } else {
+      authArea.innerHTML = `
+        <button onclick="logout()">ออกจากระบบ</button>
+      `;
+    }
   }
 }
 
-/* สมัครสมาชิก */
 function register(){
-  const user = document.getElementById("username").value.trim();
-  const pass = document.getElementById("password").value.trim();
+  const u = document.getElementById("username").value;
+  const p = document.getElementById("password").value;
 
-  if(!user || !pass){
+  if(!u || !p){
     alert("กรอกข้อมูลให้ครบ");
     return;
   }
 
-  if(user === "admin"){
-    alert("ชื่อนี้ใช้ไม่ได้");
+  if(u === "admin"){
+    alert("ใช้ชื่อนี้ไม่ได้");
     return;
   }
 
-  if(localStorage.getItem("user_"+user)){
-    alert("มีผู้ใช้นี้แล้ว");
-    return;
-  }
-
-  localStorage.setItem("user_"+user, pass);
-  alert("สมัครสมาชิกสำเร็จ");
+  localStorage.setItem("user_"+u, p);
+  alert("สมัครสำเร็จ");
 }
 
-/* ล็อกอิน */
 function login(){
-  const user = document.getElementById("username").value.trim();
-  const pass = document.getElementById("password").value.trim();
+  const u = document.getElementById("username").value;
+  const p = document.getElementById("password").value;
 
-  if(user === "admin" && pass === "12345"){
-    localStorage.setItem("currentUser","
+  if(u === "admin" && p === "12345"){
+    localStorage.setItem("currentUser","admin");
+    render();
+    toggleMenu();
+    return;
+  }
+
+  const saved = localStorage.getItem("user_"+u);
+
+  if(saved === p){
+    localStorage.setItem("currentUser",u);
+    render();
+    toggleMenu();
+  } else {
+    alert("ข้อมูลผิด");
+  }
+}
+
+function logout(){
+  localStorage.removeItem("currentUser");
+  render();
+  toggleMenu();
+}
+
+render();
+</script>
+
+</body>
+</html>
