@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ตะกร้า</title>
 <link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
 </head>
-<body onload="checkLogin();loadCart()">
+
+<body onload="requireLogin();loadCart()">
 
 <header>
-<h2>ตะกร้าสินค้า</h2>
-<button onclick="location.href='index.html'">กลับ</button>
+  <h2>🛒 ตะกร้าสินค้า</h2>
+  <button onclick="location.href='index.html'">กลับหน้าแรก</button>
 </header>
 
 <div class="container">
-<div id="cartList"></div>
-<h3>รวม: <span id="total">0</span> บาท</h3>
-<button onclick="clearCart()">ล้างตะกร้า</button>
+  <div id="cartList"></div>
+  <h3>รวมทั้งหมด: <span id="totalPrice">0</span> บาท</h3>
 </div>
 
+<script src="script.js"></script>
 </body>
 </html>
