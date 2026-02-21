@@ -1,39 +1,47 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin</title>
-<link rel="stylesheet" href="style.css">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
-<body onload="requireLogin();checkAdmin();requireAdminVerified();loadAdminProducts();">
+<body onload="checkAdmin(); loadUsers();">
 
-<header>
-  <h2>👑 Admin Panel</h2>
-  <button onclick="location.href='index.html'">หน้าแรก</button>
-</header>
+  <h1>🔐 Admin Panel</h1>
+  <p>ยินดีต้อนรับผู้ดูแลระบบ</p>
 
-<div class="container">
+  <hr>
 
-<div id="adminLoginBox">
-  <h3>ยืนยันรหัสชั้นที่ 2</h3>
-  <input type="password" id="admin_secret" placeholder="988977">
-  <button onclick="if(verifyAdmin()) location.reload()">ยืนยัน</button>
-</div>
+  <h2>ข้อมูลสมาชิก</h2>
+  <div id="userList"></div>
 
-<div id="adminPanel">
-  <h3>เพิ่มสินค้า</h3>
-  <input type="text" id="newName" placeholder="ชื่อสินค้า">
-  <input type="number" id="newPrice" placeholder="ราคา">
-  <button onclick="addProduct()">เพิ่ม</button>
+  <br>
+  <button onclick="clearUser()">ลบสมาชิกทั้งหมด</button>
+  <button onclick="logout()">ออกจากระบบ</button>
 
-  <h3>รายการสินค้า</h3>
-  <div id="adminProductList"></div>
-</div>
+  <script src="script.js"></script>
 
-</div>
+  <script>
+    function loadUsers(){
+      let user = localStorage.getItem("username");
+      let pass = localStorage.getItem("password");
 
-<script src="script.js"></script>
+      if(user && pass){
+        document.getElementById("userList").innerHTML =
+          "<b>Username:</b> " + user + "<br><b>Password:</b> " + pass;
+      } else {
+        document.getElementById("userList").innerHTML =
+          "ไม่มีสมาชิก";
+      }
+    }
+
+    function clearUser(){
+      localStorage.removeItem("username");
+      localStorage.removeItem("password");
+      alert("ลบสมาชิกเรียบร้อย");
+      loadUsers();
+    }
+  </script>
+
 </body>
 </html>
