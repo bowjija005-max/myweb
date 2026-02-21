@@ -1,90 +1,27 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ร้านค้าของฉัน</title>
+    <meta charset="UTF-8">
+    <title>ร้านค้าของฉัน</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #8e2de2, #4a00e0);
+            min-height: 100vh;
+            text-align: center;
+            color: white;
+        }
 
-<style>
-body{
-  margin:0;
-  font-family:Arial;
-  background:linear-gradient(135deg,#6a00ff,#a000ff);
-  color:white;
-  text-align:center;
-}
+        .header {
+            padding: 40px 20px 20px;
+        }
 
-.header{
-  padding:30px 20px;
-}
+        h1 {
+            margin: 0;
+        }
 
-.products{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:20px;
-  padding:20px;
-}
-
-.card{
-  background:white;
-  color:black;
-  width:200px;
-  padding:20px;
-  border-radius:15px;
-}
-
-button{
-  padding:10px;
-  border:none;
-  border-radius:8px;
-  background:#8a2be2;
-  color:white;
-  cursor:pointer;
-}
-</style>
-</head>
-<body>
-
-<div class="header">
-  <h1>ร้านค้าของฉัน</h1>
-  <p id="status"></p>
-</div>
-
-<div class="products">
-
-  <div class="card">
-    <h3>สินค้า A</h3>
-    <p>ราคา 100 บาท</p>
-    <button onclick="buy()">ซื้อสินค้า</button>
-  </div>
-
-  <div class="card">
-    <h3>สินค้า B</h3>
-    <p>ราคา 200 บาท</p>
-    <button onclick="buy()">ซื้อสินค้า</button>
-  </div>
-
-</div>
-
-<script>
-const statusText = document.getElementById("status");
-
-if(localStorage.getItem("loggedIn") === "true"){
-  const user = localStorage.getItem("user");
-  statusText.innerText = "เข้าสู่ระบบแล้ว: " + user;
-}else{
-  statusText.innerText = "ยังไม่ได้เข้าสู่ระบบ";
-}
-
-function buy(){
-  if(localStorage.getItem("loggedIn") === "true"){
-    alert("สั่งซื้อสำเร็จ!");
-  }else{
-    window.location.href = "login.html";
-  }
-}
-</script>
-
-</body>
-</html>
+        .logout-btn {
+            margin-top: 15px;
+            padding
