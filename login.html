@@ -1,122 +1,19 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>เข้าสู่ระบบ</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #4e73df, #1cc88a);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .box {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            width: 350px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #4e73df;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background: #2e59d9;
-        }
-
-        .register-link {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .register-link a {
-            color: #4e73df;
-            text-decoration: none;
-        }
-
-        .error {
-            color: red;
-            font-size: 14px;
-            text-align: center;
-        }
-    </style>
+<title>Login</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
 </head>
 <body>
 
-<div class="box">
-    <h2>เข้าสู่ระบบ</h2>
-    <div id="message"></div>
-
-    <input type="text" id="username" placeholder="ชื่อผู้ใช้">
-    <input type="password" id="password" placeholder="รหัสผ่าน">
-
-    <button onclick="login()">เข้าสู่ระบบ</button>
-
-    <div class="register-link">
-        ยังไม่มีบัญชี? <a href="register.html">สมัครสมาชิก</a>
-    </div>
+<div class="container">
+<h2>เข้าสู่ระบบ</h2>
+<input id="username" placeholder="ชื่อผู้ใช้">
+<input id="password" type="password" placeholder="รหัสผ่าน">
+<button onclick="login()">เข้าสู่ระบบ</button>
+<p>ยังไม่มีบัญชี? <a href="register.html">สมัครสมาชิก</a></p>
 </div>
-
-<script>
-    // ถ้าเคย login แล้ว ให้เข้าเว็บได้เลย
-    if (localStorage.getItem("isLoggedIn") === "true") {
-        window.location.href = "index.html";
-    }
-
-    function login() {
-        let username = document.getElementById("username").value.trim();
-        let password = document.getElementById("password").value;
-        let message = document.getElementById("message");
-
-        message.innerHTML = "";
-
-        if (username === "" || password === "") {
-            message.innerHTML = "<div class='error'>กรุณากรอกข้อมูลให้ครบ</div>";
-            return;
-        }
-
-        let storedUser = localStorage.getItem(username);
-
-        if (!storedUser) {
-            message.innerHTML = "<div class='error'>ไม่พบชื่อผู้ใช้</div>";
-            return;
-        }
-
-        let userData = JSON.parse(storedUser);
-
-        if (userData.password === password) {
-            localStorage.setItem("isLoggedIn", "true");
-            window.location.href = "index.html";
-        } else {
-            message.innerHTML = "<div class='error'>รหัสผ่านไม่ถูกต้อง</div>";
-        }
-    }
-</script>
 
 </body>
 </html>
