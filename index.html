@@ -103,27 +103,38 @@ body{
   color:black;
   padding:25px;
   border-radius:15px;
-  width:85%;
-  max-width:350px;
+  width:90%;
+  max-width:400px;
+  text-align:left;
+}
+
+.modal-box h3{
+  text-align:center;
 }
 
 .modal-box input{
   width:100%;
-  padding:10px;
-  margin:6px 0;
-  border-radius:8px;
-  border:1px solid #ccc;
+  padding:8px;
+  margin:5px 0;
 }
 
 .modal-box button{
   width:100%;
   padding:10px;
-  margin-top:8px;
+  margin-top:5px;
   border:none;
-  border-radius:8px;
   background:#5b00a5;
   color:white;
+  border-radius:8px;
   cursor:pointer;
+}
+
+.user-item{
+  background:#eee;
+  padding:8px;
+  margin:5px 0;
+  border-radius:6px;
+  font-size:14px;
 }
 </style>
 </head>
@@ -152,25 +163,20 @@ body{
   <div class="card">สินค้า 4</div>
 </div>
 
-<!-- MODAL LOGIN -->
+<!-- MODAL -->
 <div id="modal" class="modal">
-  <div class="modal-box">
-    <h3>เข้าสู่ระบบ</h3>
-    <input id="username" placeholder="ชื่อผู้ใช้">
-    <input id="password" type="password" placeholder="รหัสผ่าน">
-    <button onclick="login()">เข้าสู่ระบบ</button>
-    <button onclick="register()">สมัครสมาชิก</button>
-    <button onclick="closeModal()">ปิด</button>
+  <div class="modal-box" id="modalContent">
+    <!-- เนื้อหาเปลี่ยนตามสถานะ -->
   </div>
 </div>
 
 <script>
 function updateUI(){
-  const currentUser = localStorage.getItem("currentUser");
+  const user = localStorage.getItem("currentUser");
   const topBtn = document.getElementById("topBtn");
 
-  if(currentUser){
-    topBtn.innerHTML = "สวัสดี " + currentUser + " | ออกจากระบบ";
+  if(user){
+    topBtn.innerHTML = "สวัสดี " + user + " | ออกจากระบบ";
     topBtn.onclick = logout;
   }else{
     topBtn.innerHTML = "เข้าสู่ระบบ";
@@ -179,7 +185,24 @@ function updateUI(){
 }
 
 function openModal(){
-  document.getElementById("modal").style.display="flex";
+  const user = localStorage.getItem("currentUser");
+  const modal = document.getElementById("modal");
+  const content = document.getElementById("modalContent");
+
+  modal.style.display="flex";
+
+  if(user === "admin"){
+    showAdminPanel();
+  }else{
+    content.innerHTML = `
+      <h3>เข้าสู่ระบบ</h3>
+      <input id="username" placeholder="ชื่อผู้ใช้">
+      <input id="password" type="password" placeholder="รหัสผ่าน">
+      <button onclick="login()">เข้าสู่ระบบ</button>
+      <button onclick="register()">สมัครสมาชิก</button>
+      <button onclick="closeModal()">ปิด</button>
+    `;
+  }
 }
 
 function closeModal(){
@@ -190,22 +213,11 @@ function register(){
   const u = document.getElementById("username").value.trim();
   const p = document.getElementById("password").value.trim();
 
-  if(!u || !p){
-    alert("กรอกข้อมูลให้ครบ");
-    return;
-  }
+  if(!u || !p){ alert("กรอกข้อมูลให้ครบ"); return; }
+  if(u === "admin"){ alert("ชื่อนี้ใช้ไม่ได้"); return; }
+  if(localStorage.getItem("user_"+u)){ alert("มีผู้ใช้นี้แล้ว"); return; }
 
-  if(u === "admin"){
-    alert("ชื่อนี้ใช้ไม่ได้");
-    return;
-  }
-
-  if(localStorage.getItem("user_"+u)){
-    alert("มีผู้ใช้นี้แล้ว");
-    return;
-  }
-
-  localStorage.setItem("user_"+u,p);
+  localStorage.setItem("user_"+u, JSON.stringify({password:p, credit:0}));
   alert("สมัครสำเร็จ");
 }
 
@@ -213,22 +225,25 @@ function login(){
   const u = document.getElementById("username").value.trim();
   const p = document.getElementById("password").value.trim();
 
-  if(u === "admin" && p === "12345"){
+  if(u==="admin" && p==="12345"){
     localStorage.setItem("currentUser","admin");
     closeModal();
     updateUI();
     return;
   }
 
-  const saved = localStorage.getItem("user_"+u);
-
-  if(saved === p){
-    localStorage.setItem("currentUser",u);
-    closeModal();
-    updateUI();
-  }else{
-    alert("ข้อมูลไม่ถูกต้อง");
+  const data = localStorage.getItem("user_"+u);
+  if(data){
+    const user = JSON.parse(data);
+    if(user.password===p){
+      localStorage.setItem("currentUser",u);
+      closeModal();
+      updateUI();
+      return;
+    }
   }
+
+  alert("ข้อมูลไม่ถูกต้อง");
 }
 
 function logout(){
@@ -236,8 +251,49 @@ function logout(){
   updateUI();
 }
 
+function showAdminPanel(){
+  const content = document.getElementById("modalContent");
+  let html = "<h3>Admin Panel</h3>";
+
+  for(let key in localStorage){
+    if(key.startsWith("user_")){
+      const username = key.replace("user_","");
+      const data = JSON.parse(localStorage.getItem(key));
+
+      html += `
+      <div class="user-item">
+        <b>${username}</b><br>
+        เครดิต: ${data.credit} บาท
+        <input id="add_${username}" type="number" placeholder="เพิ่มเครดิต">
+        <button onclick="addCredit('${username}')">เพิ่มเงิน</button>
+        <button onclick="deleteUser('${username}')">ลบผู้ใช้</button>
+      </div>
+      `;
+    }
+  }
+
+  html += `<button onclick="closeModal()">ปิด</button>`;
+  content.innerHTML = html;
+}
+
+function addCredit(username){
+  const input = document.getElementById("add_"+username);
+  const amount = parseInt(input.value);
+  if(!amount || amount<=0){ alert("ใส่จำนวนให้ถูกต้อง"); return; }
+
+  const data = JSON.parse(localStorage.getItem("user_"+username));
+  data.credit += amount;
+  localStorage.setItem("user_"+username, JSON.stringify(data));
+  showAdminPanel();
+}
+
+function deleteUser(username){
+  localStorage.removeItem("user_"+username);
+  showAdminPanel();
+}
+
 updateUI();
 </script>
 
 </body>
-                  </html>
+</html>
