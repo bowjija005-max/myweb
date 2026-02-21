@@ -1,17 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
 <body onload="requireLogin();checkAdmin();requireAdminVerified();loadAdminProducts();">
 
-<div id="adminLoginBox">
-  <h3>ยืนยันตัวตนแอดมิน</h3>
-  <input type="password" id="admin_secret" placeholder="รหัสชั้นที่ 2">
-  <button onclick="if(verifyAdmin()) location.reload()">ยืนยัน</button>
+<header>
+  <h2>👑 Admin Panel</h2>
+  <div>
+    <button onclick="location.href='index.html'">หน้าแรก</button>
+    <button onclick="logout()">ออกจากระบบ</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- กล่องยืนยันรหัสชั้นที่ 2 -->
+  <div id="adminLoginBox">
+    <h3>🔐 ยืนยันตัวตนแอดมิน</h3>
+    <input type="password" id="admin_secret" placeholder="ใส่รหัสชั้นที่ 2">
+    <button onclick="if(verifyAdmin()) location.reload()">ยืนยัน</button>
+  </div>
+
+  <!-- ระบบจัดการสินค้า -->
+  <div id="adminPanel">
+    <h3>➕ เพิ่มสินค้าใหม่</h3>
+    <input type="text" id="newName" placeholder="ชื่อสินค้า">
+    <input type="number" id="newPrice" placeholder="ราคา">
+    <button onclick="addProduct()">เพิ่มสินค้า</button>
+
+    <hr style="margin:20px 0;">
+
+    <h3>📦 รายการสินค้าทั้งหมด</h3>
+    <div id="adminProductList"></div>
+  </div>
+
 </div>
 
-<div id="adminPanel">
-  <h3>เพิ่มสินค้า</h3>
-  <input id="newName" placeholder="ชื่อสินค้า">
-  <input id="newPrice" placeholder="ราคา">
-  <button onclick="addProduct()">เพิ่ม</button>
+<script src="script.js"></script>
 
-  <h3>รายการสินค้า</h3>
-  <div id="adminProductList"></div>
-</div>
+</body>
+</html>
