@@ -1,103 +1,47 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>ร้านค้าของฉัน</title>
-
-<style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:linear-gradient(135deg,#8e2de2,#4a00e0);
-    min-height:100vh;
-    color:white;
-    text-align:center;
-}
-
-.container{
-    padding-top:50px;
-}
-
-.products{
-    display:flex;
-    justify-content:center;
-    gap:30px;
-    margin-top:40px;
-    flex-wrap:wrap;
-}
-
-.card{
-    background:white;
-    color:black;
-    padding:20px;
-    width:250px;
-    border-radius:15px;
-}
-
-button{
-    padding:8px 15px;
-    border:none;
-    border-radius:5px;
-    cursor:pointer;
-    margin-top:10px;
-}
-
-.buy-btn{
-    background:#8e2de2;
-    color:white;
-}
-
-.logout-btn{
-    background:red;
-    color:white;
-}
-</style>
+<title>สินค้า</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
 </head>
+<body onload="checkLogin()">
 
-<body>
+<header>
+<h2>รายการสินค้า</h2>
+<div>
+<button onclick="location.href='cart.html'">ตะกร้า</button>
+<button onclick="location.href='profile.html'">โปรไฟล์</button>
+<button onclick="logout()">ออก</button>
+</div>
+</header>
 
-<div class="container" id="content" style="display:none;">
-
-<h1>ร้านค้าของฉัน</h1>
-<button class="logout-btn" onclick="logout()">ออกจากระบบ</button>
-
+<div class="container">
 <div class="products">
-    <div class="card">
-        <h3>สินค้า A</h3>
-        <p>ราคา 100 บาท</p>
-        <button class="buy-btn" onclick="buy('สินค้า A')">ซื้อสินค้า</button>
-    </div>
 
-    <div class="card">
-        <h3>สินค้า B</h3>
-        <p>ราคา 200 บาท</p>
-        <button class="buy-btn" onclick="buy('สินค้า B')">ซื้อสินค้า</button>
-    </div>
+<div class="card">
+<img src="https://picsum.photos/300/200?1">
+<h3>สินค้า A</h3>
+<p>100 บาท</p>
+<button onclick="addToCart('สินค้า A',100)">เพิ่ม</button>
+</div>
+
+<div class="card">
+<img src="https://picsum.photos/300/200?2">
+<h3>สินค้า B</h3>
+<p>200 บาท</p>
+<button onclick="addToCart('สินค้า B',200)">เพิ่ม</button>
+</div>
+
+<div class="card">
+<img src="https://picsum.photos/300/200?3">
+<h3>สินค้า C</h3>
+<p>300 บาท</p>
+<button onclick="addToCart('สินค้า C',300)">เพิ่ม</button>
 </div>
 
 </div>
-
-<script>
-// เช็คหลังโหลดหน้าเว็บ
-window.onload = function() {
-
-    if(localStorage.getItem("isLoggedIn") !== "true"){
-        window.location.href = "login.html";
-    } else {
-        document.getElementById("content").style.display = "block";
-    }
-
-}
-
-function logout(){
-    localStorage.removeItem("isLoggedIn");
-    window.location.href = "login.html";
-}
-
-function buy(name){
-    alert("คุณซื้อ " + name + " สำเร็จแล้ว!");
-}
-</script>
+</div>
 
 </body>
 </html>
