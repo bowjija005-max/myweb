@@ -3,332 +3,146 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Purple Shop</title>
+<title>My System</title>
 
 <style>
 body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:linear-gradient(180deg,#a100ff,#5b00a5);
-  color:white;
-  text-align:center;
+    font-family: sans-serif;
+    background: linear-gradient(135deg,#1e3c72,#2a5298);
+    color:white;
+    text-align:center;
+    margin:0;
+    padding:0;
 }
 
-/* HEADER */
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px;
+/* ❌ ปิดการเลือกข้อความ */
+body,*{
+    -webkit-user-select:none;
+    user-select:none;
 }
 
-.logo{
-  font-size:22px;
-  font-weight:bold;
+.container{
+    margin-top:80px;
 }
 
-.login-btn{
-  background:linear-gradient(90deg,#7b2cff,#4a00e0);
-  border:none;
-  color:white;
-  padding:10px 20px;
-  border-radius:25px;
-  cursor:pointer;
+input{
+    padding:10px;
+    margin:5px;
+    border:none;
+    border-radius:8px;
 }
 
-/* HERO */
-.hero{
-  padding:40px 20px;
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:#00c6ff;
+    color:white;
 }
 
-.hero h1{
-  font-size:42px;
-  margin:0;
+.admin-panel{
+    margin-top:20px;
+    display:none;
+    background:#111;
+    padding:20px;
+    border-radius:10px;
 }
 
-.hero p{
-  opacity:0.9;
-  margin-top:10px;
+/* เอฟเฟคสมัครสำเร็จ */
+.success{
+    font-size:20px;
+    color:lime;
+    animation: pop 0.6s ease;
 }
 
-/* BUTTONS */
-.big-buttons{
-  margin-top:25px;
-}
-
-.big-buttons button{
-  margin:5px;
-  padding:12px 20px;
-  border:none;
-  border-radius:25px;
-  font-size:16px;
-  cursor:pointer;
-  background:white;
-  color:#5b00a5;
-  font-weight:bold;
-}
-
-/* CARDS */
-.cards{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
-  padding:20px;
-  margin-top:30px;
-}
-
-.card{
-  background:linear-gradient(180deg,#ff8dfc,#d600ff);
-  padding:20px;
-  border-radius:20px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-/* MODAL */
-.modal{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.5);
-  display:none;
-  justify-content:center;
-  align-items:center;
-}
-
-.modal-box{
-  background:white;
-  color:black;
-  padding:25px;
-  border-radius:15px;
-  width:90%;
-  max-width:400px;
-  text-align:left;
-}
-
-.modal-box h3{
-  text-align:center;
-}
-
-.modal-box input{
-  width:100%;
-  padding:8px;
-  margin:5px 0;
-}
-
-.modal-box button{
-  width:100%;
-  padding:10px;
-  margin-top:5px;
-  border:none;
-  background:#5b00a5;
-  color:white;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-.user-item{
-  background:#eee;
-  padding:8px;
-  margin:5px 0;
-  border-radius:6px;
-  font-size:14px;
-}
-
-/* SUCCESS EFFECT */
-.success-popup{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%) scale(0.8);
-  background:white;
-  color:#5b00a5;
-  padding:25px 40px;
-  border-radius:15px;
-  font-weight:bold;
-  font-size:18px;
-  box-shadow:0 0 25px rgba(0,0,0,0.3);
-  opacity:0;
-  transition:0.3s;
-  z-index:9999;
-}
-
-.success-popup.show{
-  opacity:1;
-  transform:translate(-50%,-50%) scale(1);
+@keyframes pop{
+    0%{transform:scale(0);}
+    80%{transform:scale(1.2);}
+    100%{transform:scale(1);}
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <div class="logo">BubbleShop</div>
-  <button class="login-btn" id="topBtn" onclick="openModal()">เข้าสู่ระบบ</button>
+<div class="container">
+
+<h1>ระบบสมัครสมาชิก</h1>
+
+<div id="authBox">
+<input type="text" id="username" placeholder="Username"><br>
+<input type="password" id="password" placeholder="Password"><br>
+<button onclick="register()">สมัครสมาชิก</button>
+<button onclick="login()">เข้าสู่ระบบ</button>
+<p id="message"></p>
 </div>
 
-<div class="hero">
-  <h1>Bubble Shop</h1>
-  <p>ร้านค้าออนไลน์ระบบสมัครสมาชิก</p>
-
-  <div class="big-buttons">
-    <button>เติมเงิน</button>
-    <button>ประวัติ</button>
-  </div>
+<div id="adminPanel" class="admin-panel">
+<h2>👑 Admin Panel</h2>
+<p>คุณสามารถ:</p>
+<ul style="list-style:none;padding:0;">
+<li>✔ ลบผู้ใช้</li>
+<li>✔ ดูรายชื่อผู้ใช้</li>
+<li>✔ รีเซ็ตรหัสผ่าน</li>
+<li>✔ จัดการทุกอย่าง</li>
+</ul>
+<button onclick="logout()">ออกจากระบบ</button>
 </div>
 
-<div class="cards">
-  <div class="card">สินค้า 1</div>
-  <div class="card">สินค้า 2</div>
-  <div class="card">สินค้า 3</div>
-  <div class="card">สินค้า 4</div>
-</div>
-
-<!-- MODAL -->
-<div id="modal" class="modal">
-  <div class="modal-box" id="modalContent"></div>
-</div>
-
-<!-- SUCCESS POPUP -->
-<div id="successBox" class="success-popup">
-สมัครสมาชิกสำเร็จ 🎉
 </div>
 
 <script>
-function updateUI(){
-  const user = localStorage.getItem("currentUser");
-  const topBtn = document.getElementById("topBtn");
+// ❌ ปิดคลิกขวา
+document.addEventListener("contextmenu", e => e.preventDefault());
 
-  if(user){
-    topBtn.innerHTML = "สวัสดี " + user + " | ออกจากระบบ";
-    topBtn.onclick = logout;
-  }else{
-    topBtn.innerHTML = "เข้าสู่ระบบ";
-    topBtn.onclick = openModal;
-  }
-}
+// ❌ ปิด Ctrl + F12
+document.addEventListener("keydown", function(e){
+    if(
+        (e.ctrlKey && ['c','u','s','a'].includes(e.key.toLowerCase())) ||
+        e.key === "F12"
+    ){
+        e.preventDefault();
+    }
+});
 
-function openModal(){
-  const user = localStorage.getItem("currentUser");
-  const modal = document.getElementById("modal");
-  const content = document.getElementById("modalContent");
-
-  modal.style.display="flex";
-
-  if(user === "admin"){
-    showAdminPanel();
-  }else{
-    content.innerHTML = `
-      <h3>เข้าสู่ระบบ</h3>
-      <input id="username" placeholder="ชื่อผู้ใช้">
-      <input id="password" type="password" placeholder="รหัสผ่าน">
-      <button onclick="login()">เข้าสู่ระบบ</button>
-      <button onclick="register()">สมัครสมาชิก</button>
-      <button onclick="closeModal()">ปิด</button>
-    `;
-  }
-}
-
-function closeModal(){
-  document.getElementById("modal").style.display="none";
-}
+let users = {};
+let adminUser = "admin";
+let adminPass = "1234";
 
 function register(){
-  const u = document.getElementById("username").value.trim();
-  const p = document.getElementById("password").value.trim();
+    let user = document.getElementById("username").value;
+    let pass = document.getElementById("password").value;
 
-  if(!u || !p){ alert("กรอกข้อมูลให้ครบ"); return; }
-  if(u === "admin"){ alert("ชื่อนี้ใช้ไม่ได้"); return; }
-  if(localStorage.getItem("user_"+u)){ alert("มีผู้ใช้นี้แล้ว"); return; }
-
-  localStorage.setItem("user_"+u, JSON.stringify({password:p, credit:0}));
-
-  showSuccess();
-}
-
-function showSuccess(){
-  const box = document.getElementById("successBox");
-  box.classList.add("show");
-
-  setTimeout(()=>{
-    box.classList.remove("show");
-  },2000);
+    if(user && pass){
+        users[user] = pass;
+        document.getElementById("message").innerHTML = 
+            "<span class='success'>สมัครสำเร็จ 🎉</span>";
+    }else{
+        document.getElementById("message").innerText = "กรอกข้อมูลให้ครบ";
+    }
 }
 
 function login(){
-  const u = document.getElementById("username").value.trim();
-  const p = document.getElementById("password").value.trim();
+    let user = document.getElementById("username").value;
+    let pass = document.getElementById("password").value;
 
-  if(u==="admin" && p==="12345"){
-    localStorage.setItem("currentUser","admin");
-    closeModal();
-    updateUI();
-    return;
-  }
-
-  const data = localStorage.getItem("user_"+u);
-  if(data){
-    const user = JSON.parse(data);
-    if(user.password===p){
-      localStorage.setItem("currentUser",u);
-      closeModal();
-      updateUI();
-      return;
+    if(user === adminUser && pass === adminPass){
+        document.getElementById("authBox").style.display = "none";
+        document.getElementById("adminPanel").style.display = "block";
     }
-  }
-
-  alert("ข้อมูลไม่ถูกต้อง");
+    else if(users[user] === pass){
+        document.getElementById("message").innerHTML = 
+        "<span class='success'>เข้าสู่ระบบสำเร็จ</span>";
+    }
+    else{
+        document.getElementById("message").innerText = "ข้อมูลไม่ถูกต้อง";
+    }
 }
 
 function logout(){
-  localStorage.removeItem("currentUser");
-  updateUI();
+    location.reload();
 }
-
-function showAdminPanel(){
-  const content = document.getElementById("modalContent");
-  let html = "<h3>Admin Panel</h3>";
-
-  for(let key in localStorage){
-    if(key.startsWith("user_")){
-      const username = key.replace("user_","");
-      const data = JSON.parse(localStorage.getItem(key));
-
-      html += `
-      <div class="user-item">
-        <b>${username}</b><br>
-        เครดิต: ${data.credit} บาท
-        <input id="add_${username}" type="number" placeholder="เพิ่มเครดิต">
-        <button onclick="addCredit('${username}')">เพิ่มเงิน</button>
-        <button onclick="deleteUser('${username}')">ลบผู้ใช้</button>
-      </div>
-      `;
-    }
-  }
-
-  html += `<button onclick="closeModal()">ปิด</button>`;
-  content.innerHTML = html;
-}
-
-function addCredit(username){
-  const input = document.getElementById("add_"+username);
-  const amount = parseInt(input.value);
-  if(!amount || amount<=0){ alert("ใส่จำนวนให้ถูกต้อง"); return; }
-
-  const data = JSON.parse(localStorage.getItem("user_"+username));
-  data.credit += amount;
-  localStorage.setItem("user_"+username, JSON.stringify(data));
-  showAdminPanel();
-}
-
-function deleteUser(username){
-  localStorage.removeItem("user_"+username);
-  showAdminPanel();
-}
-
-updateUI();
 </script>
 
 </body>
